@@ -9,28 +9,45 @@
 #import "FlightsViewController.h"
 #import "FlightsView.h"
 #import "Segment.h"
+#import "CoreDataStack.h"
 
 static NSString *kSegmentCellIdentifier = @"segmentCell";
 
 @interface FlightsViewController ()
 @property NSMutableArray *sections;
+@property NSNumberFormatter *numberFormatter;
 @end
 
 @implementation FlightsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _numberFormatter = [NSNumberFormatter new];
+    _numberFormatter.numberStyle = kCFNumberFormatterCurrencyStyle;
+//    _numberFormatter.currencyCode
+    
     _sections = [[NSMutableArray alloc] initWithCapacity:0];
     // Do any additional setup after loading the view.
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closeController:)]];
     
-    for (Segment *segment in self.availableFlights) {
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    
+    dispatch_apply([self.availableFlights count], queue, ^(size_t i) {
+        Segment *segment = self.availableFlights[i];
         NSString *destination = segment.outbound.destination;
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"outbound.destination == %@",destination];
         NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"price" ascending:YES];
         NSArray *destinationGrouped = [self.availableFlights filteredArrayUsingPredicate:predicate];
         [self.sections addObject:[destinationGrouped sortedArrayUsingDescriptors:@[sortDescriptor]]];
-    }
+    });
+    
+//    for (Segment *segment in self.availableFlights) {
+//        NSString *destination = segment.outbound.destination;
+//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"outbound.destination == %@",destination];
+//        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"price" ascending:YES];
+//        NSArray *destinationGrouped = [self.availableFlights filteredArrayUsingPredicate:predicate];
+//        [self.sections addObject:[destinationGrouped sortedArrayUsingDescriptors:@[sortDescriptor]]];
+//    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,7 +83,8 @@ static NSString *kSegmentCellIdentifier = @"segmentCell";
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     Segment *segmentItem = self.sections[section][0];
-    return [NSString stringWithFormat:@"%@ from %.2f", segmentItem.outbound.destination, [segmentItem.price doubleValue]];
+    NSString *stringPrice = [self.numberFormatter stringFromNumber:segmentItem.price];
+    return [NSString stringWithFormat:@"%@ from %@", segmentItem.outbound.destination, stringPrice];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
