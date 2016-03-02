@@ -36,7 +36,7 @@
 
     
     // Do any additional setup after loading the view.
-//   [self loadData];
+   [self loadData];
 }
 
 
@@ -88,7 +88,9 @@
 
 -(void)searchRides:(id)sender {
     FlightsViewController *vc = [FlightsViewController new];
+
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+    vc.availableFlights = self.flights;
     [self presentViewController:nc animated:YES completion:nil];
 }
 /*

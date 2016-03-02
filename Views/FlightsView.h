@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class FlightsViewController;
 @interface FlightsView : UIView
-
+@property UITableView *tableView;
+@property (nonatomic, weak) FlightsViewController *controller;
 @end
