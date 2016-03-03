@@ -11,15 +11,18 @@
 #import "FlightDetails.h"
 #import "Segment.h"
 #import "CoreDataStack.h"
+#import "AppDelegate.h"
+#import "Warrior.h"
+#import "SegmentViewController.h"
 
-static NSString *kSegmentCellIdentifier = @"segmentCell";
+static NSString *kFlightCellIdentifier = @"flightCell";
 
 @interface FlightsViewController ()<NSFetchedResultsControllerDelegate>
 @property NSArray *filteredList;
 @property NSNumberFormatter *numberFormatter;
 @property (nonatomic)  UITableView *tableView;
 @property (nonatomic)  UISearchController *searchController;
-
+@property NSMutableArray *indexLetters;
 @property (nonatomic)  NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic) NSFetchRequest *searchFetchRequest;
 
@@ -34,7 +37,15 @@ static NSString *kSegmentCellIdentifier = @"segmentCell";
     
     _numberFormatter = [NSNumberFormatter new];
     _numberFormatter.numberStyle = kCFNumberFormatterCurrencyStyle;
-//    _numberFormatter.currencyCode
+    
+    NSManagedObjectContext *context = [(AppDelegate*)[UIApplication sharedApplication].delegate managedObjectContext];
+    
+    Warrior *registeredUser = [CoreDataStack getWarriorInContext:context];
+    if (registeredUser) {
+        _numberFormatter.currencyCode = registeredUser.currency;
+    }else{
+        _numberFormatter.currencyCode = @"EUR";
+    }
     
     // Do any additional setup after loading the view.
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closeController:)]];
@@ -99,6 +110,41 @@ static NSString *kSegmentCellIdentifier = @"segmentCell";
 
 #pragma mark -TableViewDataSOurce
 
+//- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView{
+//    NSMutableOrderedSet *letters = [[NSMutableOrderedSet alloc] init];
+//    NSArray *AllObjects ;
+//    __block NSString *outboundName;
+//    if (![self.searchController isActive]) {
+//        AllObjects = [self.fetchedResultsController fetchedObjects];
+//        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+//        dispatch_apply([AllObjects count]-1, queue, ^(size_t i) {
+//            Segment *segmentItem = AllObjects[i];
+//            outboundName = segmentItem.outbound.destination;
+//            [letters addObject:[outboundName substringToIndex:1]];
+//        });
+//        [letters sortUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
+//            if (obj1>obj2) {
+//                return true;
+//            }else
+//                return false;
+//            
+//        }];
+//
+//    }else if([self.filteredList count]>0){
+//        
+//
+//    }
+//    
+//    
+//        self.indexLetters = [[NSMutableArray alloc] initWithArray: letters.array];
+//    return self.indexLetters;
+//}
+
+//- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
+//    return [self.indexLetters indexOfObject:title];
+//}
+
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if ([self.searchController isActive]) {
         return [self.filteredList count];
@@ -137,9 +183,9 @@ static NSString *kSegmentCellIdentifier = @"segmentCell";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSegmentCellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFlightCellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:kSegmentCellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:kFlightCellIdentifier];
     }
     Segment *segmentItem = nil;
     if ([self.searchController isActive]) {
@@ -153,10 +199,18 @@ static NSString *kSegmentCellIdentifier = @"segmentCell";
     cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@ / %@ - %@",
                            segmentItem.inbound.destination, segmentItem.inbound.origin,
                            segmentItem.outbound.destination, segmentItem.outbound.origin];
-    
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"Price : .%.2f", [segmentItem.price doubleValue]];
+
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Price : .%@", [self.numberFormatter stringFromNumber:segmentItem.price]];
     return cell;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    Segment *segmentItem = segmentItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    SegmentViewController *vc = [SegmentViewController new];
+    vc.selectedSegment = segmentItem;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 
 #pragma mark - ComputedProperties
 - (UITableView *)tableView{
@@ -185,8 +239,13 @@ static NSString *kSegmentCellIdentifier = @"segmentCell";
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"Segment" inManagedObjectContext:moc];
         [fetchRequest setEntity:entity];
         
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"price" ascending:YES];
-        [fetchRequest setSortDescriptors:@[sortDescriptor]];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"outbound.destination = %@ AND outbound.origin = %@",@"Braavos", @"Bayasabhad"];
+        
+        //NSSortDescriptor *priceDescriptor = [[NSSortDescriptor alloc] initWithKey:@"price" ascending:YES];
+        NSSortDescriptor *nameDescriptor = [[NSSortDescriptor alloc] initWithKey:@"outbound.destination" ascending:YES];
+
+        [fetchRequest setSortDescriptors:@[nameDescriptor]];
+        [fetchRequest setPredicate:nil];
         
         NSFetchedResultsController *frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                                                               managedObjectContext:moc

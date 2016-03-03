@@ -150,7 +150,7 @@
     [super layoutSubviews];
     self.scrollView.contentInset = UIEdgeInsetsMake(84, 0, 0, 0);
     self.scrollView.contentSize = CGSizeMake(self.bounds.size.width, self.frame.origin.y + self.frame.size.height + 100);
-    
+    [self.scrollView setContentOffset:CGPointMake(0, self.scrollView .contentOffset.y)];
     //self.scrollView.contentSize = self.bounds.size;
 }
 
