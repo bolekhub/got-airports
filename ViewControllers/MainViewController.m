@@ -28,6 +28,7 @@
     [self.navigationController setNavigationBarHidden:YES];
     
     NSManagedObjectContext *context = [(AppDelegate*)[UIApplication sharedApplication].delegate managedObjectContext];
+    
     Warrior *p = [CoreDataStack getWarriorInContext:context];
     if (p) {
         MainView *mainView =  (MainView*)self.view;
@@ -36,7 +37,7 @@
 
     
     // Do any additional setup after loading the view.
-   [self loadData];
+   //[self loadData];
 }
 
 
@@ -51,19 +52,25 @@
 }
 
 - (void)loadData{
-    __weak typeof(self) weakSelf = self;
     [[(MainView*)self.view progressView] startAnimating];
 
     [[WebService shared] getDragonFlightsWithPredicate:nil completion:^(NSArray *response, NSError *error) {
-        for (NSDictionary *segmentItem in response) {
-            Segment *segment = [Segment new];
-            segment.currency = segmentItem[@"currency"];
-            double p = [segmentItem[@"price"] doubleValue];
-            segment.price = [NSNumber numberWithDouble:p];
-            segment.outbound = [[FlightDetails alloc] initWithDictionary:segmentItem[@"outbound"]];
-            segment.inbound = [[FlightDetails alloc] initWithDictionary:segmentItem[@"inbound"]];
-            [weakSelf.flights addObject:segment];
-        }
+        
+            [CoreDataStack saveWithBlock:^(NSManagedObjectContext *localContext) {
+                for (NSDictionary *segmentItem in response) {
+                    [CoreDataStack createSegmentWithData:segmentItem inContext:localContext];
+                }
+            }];
+        
+//            Segment *segment = [Segment new];
+//            segment.currency = segmentItem[@"currency"];
+//            double p = [segmentItem[@"price"] doubleValue];
+//            segment.price = [NSNumber numberWithDouble:p];
+//            segment.outbound = [[FlightDetails alloc] initWithDictionary:segmentItem[@"outbound"]];
+//            segment.inbound = [[FlightDetails alloc] initWithDictionary:segmentItem[@"inbound"]];
+//            [weakSelf.flights addObject:segment];
+        
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             NSLog(@"finished loading and parsing");
             [[(MainView*)self.view progressView] stopAnimating];
@@ -90,7 +97,6 @@
     FlightsViewController *vc = [FlightsViewController new];
 
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
-    vc.availableFlights = self.flights;
     [self presentViewController:nc animated:YES completion:nil];
 }
 /*

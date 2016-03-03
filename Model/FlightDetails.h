@@ -2,22 +2,24 @@
 //  FlightDetails.h
 //  DragonRides
 //
-//  Created by Boris Chirino on 01/03/16.
+//  Created by Boris Chirino on 03/03/16.
 //  Copyright © 2016 Boris Chirino. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
-@interface FlightDetails : NSObject
-@property NSString *origin;
-@property NSString *destination;
-@property NSString *airline;
-@property NSString *airlineImageUrlString;
-@property NSString *arrivalDate;
-@property NSString *arrivalTime;
-@property NSString *departureDate;
-@property NSString *departureTime;
+@class Segment;
 
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)initWithDictionary:(NSDictionary*)dictionary;
+@interface FlightDetails : NSManagedObject
+
+// Insert code here to declare functionality of your managed object subclass
+- (void)fromDictionary:(NSDictionary*)dict;
+
 @end
+
+NS_ASSUME_NONNULL_END
+
+#import "FlightDetails+CoreDataProperties.h"

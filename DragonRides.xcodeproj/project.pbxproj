@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07310DE11C8823DC003F9F66 /* Segment+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 07310DDE1C8823DC003F9F66 /* Segment+CoreDataProperties.m */; };
+		07310DE21C8823DC003F9F66 /* FlightDetails+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 07310DE01C8823DC003F9F66 /* FlightDetails+CoreDataProperties.m */; };
+		07310DE51C882433003F9F66 /* Segment.m in Sources */ = {isa = PBXBuildFile; fileRef = 07310DE41C882433003F9F66 /* Segment.m */; };
+		07310DE81C88248B003F9F66 /* FlightDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 07310DE71C88248B003F9F66 /* FlightDetails.m */; };
 		0757AB141C878E0B00EFFBBC /* DragonRides.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 07B83F2D1C86043C00FB18F2 /* DragonRides.xcdatamodeld */; };
 		0757AB151C878E1300EFFBBC /* DragonRides.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = 07B83F2D1C86043C00FB18F2 /* DragonRides.xcdatamodeld */; };
 		0757AB181C878F7E00EFFBBC /* FlightsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0757AB171C878F7E00EFFBBC /* FlightsViewController.m */; };
@@ -21,8 +25,6 @@
 		07B83F5D1C860CE700FB18F2 /* iron.png in Resources */ = {isa = PBXBuildFile; fileRef = 07B83F5C1C860CE700FB18F2 /* iron.png */; };
 		07B83F611C860E8400FB18F2 /* BaseService.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B83F601C860E8400FB18F2 /* BaseService.m */; };
 		07B83F641C860ED400FB18F2 /* WebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B83F631C860ED400FB18F2 /* WebService.m */; };
-		07B83F681C86162E00FB18F2 /* Segment.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B83F671C86162E00FB18F2 /* Segment.m */; };
-		07B83F6B1C86165B00FB18F2 /* FlightDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B83F6A1C86165B00FB18F2 /* FlightDetails.m */; };
 		07B83F6F1C86223700FB18F2 /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B83F6E1C86223700FB18F2 /* MainView.m */; };
 		07B83F741C871D7900FB18F2 /* Warrior+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B83F711C871D7900FB18F2 /* Warrior+CoreDataProperties.m */; };
 		07B83F751C871D7900FB18F2 /* Warrior.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B83F731C871D7900FB18F2 /* Warrior.m */; };
@@ -50,6 +52,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		07310DDD1C8823DC003F9F66 /* Segment+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Segment+CoreDataProperties.h"; sourceTree = "<group>"; };
+		07310DDE1C8823DC003F9F66 /* Segment+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Segment+CoreDataProperties.m"; sourceTree = "<group>"; };
+		07310DDF1C8823DC003F9F66 /* FlightDetails+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FlightDetails+CoreDataProperties.h"; sourceTree = "<group>"; };
+		07310DE01C8823DC003F9F66 /* FlightDetails+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FlightDetails+CoreDataProperties.m"; sourceTree = "<group>"; };
+		07310DE31C882433003F9F66 /* Segment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Segment.h; sourceTree = "<group>"; };
+		07310DE41C882433003F9F66 /* Segment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Segment.m; sourceTree = "<group>"; };
+		07310DE61C88248B003F9F66 /* FlightDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlightDetails.h; sourceTree = "<group>"; };
+		07310DE71C88248B003F9F66 /* FlightDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlightDetails.m; sourceTree = "<group>"; };
 		0757AB161C878F7E00EFFBBC /* FlightsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlightsViewController.h; sourceTree = "<group>"; };
 		0757AB171C878F7E00EFFBBC /* FlightsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlightsViewController.m; sourceTree = "<group>"; };
 		0757AB191C878F9800EFFBBC /* FlightsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlightsView.h; sourceTree = "<group>"; };
@@ -75,10 +85,6 @@
 		07B83F601C860E8400FB18F2 /* BaseService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseService.m; sourceTree = "<group>"; };
 		07B83F621C860ED400FB18F2 /* WebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebService.h; sourceTree = "<group>"; };
 		07B83F631C860ED400FB18F2 /* WebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebService.m; sourceTree = "<group>"; };
-		07B83F661C86162E00FB18F2 /* Segment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Segment.h; sourceTree = "<group>"; };
-		07B83F671C86162E00FB18F2 /* Segment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Segment.m; sourceTree = "<group>"; };
-		07B83F691C86165B00FB18F2 /* FlightDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlightDetails.h; sourceTree = "<group>"; };
-		07B83F6A1C86165B00FB18F2 /* FlightDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlightDetails.m; sourceTree = "<group>"; };
 		07B83F6D1C86223700FB18F2 /* MainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainView.h; sourceTree = "<group>"; };
 		07B83F6E1C86223700FB18F2 /* MainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainView.m; sourceTree = "<group>"; };
 		07B83F701C871D7900FB18F2 /* Warrior+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Warrior+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -215,14 +221,18 @@
 		07B83F651C86160F00FB18F2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				07B83F661C86162E00FB18F2 /* Segment.h */,
-				07B83F671C86162E00FB18F2 /* Segment.m */,
-				07B83F691C86165B00FB18F2 /* FlightDetails.h */,
-				07B83F6A1C86165B00FB18F2 /* FlightDetails.m */,
 				07B83F701C871D7900FB18F2 /* Warrior+CoreDataProperties.h */,
 				07B83F711C871D7900FB18F2 /* Warrior+CoreDataProperties.m */,
 				07B83F721C871D7900FB18F2 /* Warrior.h */,
 				07B83F731C871D7900FB18F2 /* Warrior.m */,
+				07310DDD1C8823DC003F9F66 /* Segment+CoreDataProperties.h */,
+				07310DDE1C8823DC003F9F66 /* Segment+CoreDataProperties.m */,
+				07310DDF1C8823DC003F9F66 /* FlightDetails+CoreDataProperties.h */,
+				07310DE01C8823DC003F9F66 /* FlightDetails+CoreDataProperties.m */,
+				07310DE31C882433003F9F66 /* Segment.h */,
+				07310DE41C882433003F9F66 /* Segment.m */,
+				07310DE61C88248B003F9F66 /* FlightDetails.h */,
+				07310DE71C88248B003F9F66 /* FlightDetails.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -381,6 +391,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0757AB141C878E0B00EFFBBC /* DragonRides.xcdatamodeld in Sources */,
+				07310DE11C8823DC003F9F66 /* Segment+CoreDataProperties.m in Sources */,
+				07310DE21C8823DC003F9F66 /* FlightDetails+CoreDataProperties.m in Sources */,
 				07B83F741C871D7900FB18F2 /* Warrior+CoreDataProperties.m in Sources */,
 				07B83F781C871F6B00FB18F2 /* WarriorDataViewController.m in Sources */,
 				07B83F841C874A7100FB18F2 /* CoreDataStack.m in Sources */,
@@ -394,8 +406,8 @@
 				07B83F6F1C86223700FB18F2 /* MainView.m in Sources */,
 				07B83F5A1C8608D200FB18F2 /* MainViewController.m in Sources */,
 				07B83F231C86043C00FB18F2 /* main.m in Sources */,
-				07B83F6B1C86165B00FB18F2 /* FlightDetails.m in Sources */,
-				07B83F681C86162E00FB18F2 /* Segment.m in Sources */,
+				07310DE81C88248B003F9F66 /* FlightDetails.m in Sources */,
+				07310DE51C882433003F9F66 /* Segment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

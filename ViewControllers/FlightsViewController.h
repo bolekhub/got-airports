@@ -8,6 +8,5 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FlightsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
-@property NSArray *availableFlights;
+@interface FlightsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate>
 @end

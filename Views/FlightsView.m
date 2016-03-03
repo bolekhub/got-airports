@@ -9,6 +9,9 @@
 #import "FlightsView.h"
 #import "FlightsViewController.h"
 
+@interface FlightsView ()
+@end
+
 @implementation FlightsView
 
 - (instancetype)init
@@ -18,6 +21,9 @@
         self.backgroundColor = [UIColor greenColor];
         _tableView = [UITableView new];
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        _searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+        _searchController.dimsBackgroundDuringPresentation = NO;
         
         [self addSubview:_tableView];
         [self updateConstraints];
@@ -30,6 +36,10 @@
     [super layoutSubviews];
     self.tableView.dataSource = self.controller;
     self.tableView.delegate = self.controller;
+    self.searchController.searchResultsUpdater = self.controller;
+    self.searchController.delegate = self.controller;
+    
+    self.tableView.tableHeaderView = self.searchController.searchBar;
 
 }
 - (void)updateConstraints{

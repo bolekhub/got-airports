@@ -15,4 +15,14 @@
 +(BOOL)updateWarrior:(NSManagedObjectID*)warriorId withData:(NSDictionary*)data inContext:(NSManagedObjectContext*)context;
 
 +(Warrior*)getWarriorInContext:(NSManagedObjectContext*)context ;
+
++(NSArray*)getAllSegments:(NSManagedObjectContext*)context ;
+
++(void)createSegmentWithData:(NSDictionary*)data inContext:(NSManagedObjectContext*)context;
+
++(NSManagedObjectContext*)mainContext;
+
++(void)saveMainContext;
+
++ (void)saveWithBlock:(void(^)(NSManagedObjectContext *localContext))block;
 @end
