@@ -1,18 +1,19 @@
 //
-//  FlightsView.m
+//  BookingView.m
 //  DragonRides
 //
-//  Created by Boris Chirino on 02/03/16.
+//  Created by Boris Chirino on 03/03/16.
 //  Copyright © 2016 Boris Chirino. All rights reserved.
 //
 
-#import "FlightsView.h"
-#import "FlightsViewController.h"
+#import "BookingView.h"
+#import "BookingViewController.h"
 
-@interface FlightsView ()
+@interface BookingView ()
+
 @end
 
-@implementation FlightsView
+@implementation BookingView
 
 - (instancetype)init
 {
@@ -20,28 +21,24 @@
     if (self) {
         self.backgroundColor = [UIColor greenColor];
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+        [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        _searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
-        _searchController.dimsBackgroundDuringPresentation = NO;
         
         [self addSubview:_tableView];
         [self updateConstraints];
-
+        
     }
     return self;
 }
+
 
 - (void)layoutSubviews{
     [super layoutSubviews];
     self.tableView.dataSource = self.controller;
     self.tableView.delegate = self.controller;
-    self.searchController.searchResultsUpdater = self.controller;
-    self.searchController.delegate = self.controller;
-    
-    self.tableView.tableHeaderView = self.searchController.searchBar;
-
 }
+
+
 - (void)updateConstraints{
     [super updateConstraints];
     
@@ -52,11 +49,15 @@
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_tableView]|" options:0 metrics:0 views:dictionaryView]];
 }
+
+
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
 }
 */
 

@@ -11,6 +11,8 @@
 #import "CoreDataStack.h"
 #import "Segment.h"
 #import "FlightDetails.h"
+#import "BookingViewController.h"
+
 #import <CoreData/CoreData.h>
 
 @interface SegmentViewController ()<NSFetchedResultsControllerDelegate>
@@ -86,7 +88,11 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    BookingViewController *vc = [BookingViewController new];
+    Segment *segmentItem = segmentItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
 
+    vc.selectedSegment = segmentItem;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 

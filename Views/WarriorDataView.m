@@ -10,6 +10,8 @@
 
 @interface WarriorDataView () <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate>
 @property UILabel *dateOfBirthLabel;
+@property UILabel *currencyLabel;
+
 
 @end
 
@@ -37,6 +39,13 @@
         [_dateOfBirthLabel setFont:[UIFont systemFontOfSize:22.0]];
         [_dateOfBirthLabel setTextColor:[UIColor whiteColor]];
         [_dateOfBirthLabel setTextAlignment:NSTextAlignmentCenter];
+        
+        _currencyLabel = [UILabel new];
+        [_currencyLabel setText:@"Currency"];
+        _currencyLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [_currencyLabel setFont:[UIFont systemFontOfSize:22.0]];
+        [_currencyLabel setTextColor:[UIColor whiteColor]];
+        [_currencyLabel setTextAlignment:NSTextAlignmentCenter];
         
         _nameTextField = [UITextField new];
         _nameTextField.layer.borderColor = [UIColor redColor].CGColor;
@@ -82,6 +91,7 @@
         [_scrollView addSubview:_dobPicker];
         [_scrollView addSubview:_dateOfBirthLabel];
         [_scrollView addSubview:_currencyPicker];
+        [_scrollView addSubview:_currencyLabel];
         
         // [_scrollView addSubview:_contentView];
 
@@ -103,16 +113,19 @@
     [super updateConstraints];
     
     UIView *_superview = self;
-    NSDictionary *dictionaryView = NSDictionaryOfVariableBindings(_nameTextField, _surNameTextField, _dobPicker, _dateOfBirthLabel, _currencyPicker, _scrollView,_superview);
+    NSDictionary *dictionaryView = NSDictionaryOfVariableBindings(_nameTextField, _surNameTextField, _dobPicker, _dateOfBirthLabel, _currencyPicker, _scrollView,_superview, _currencyLabel);
     
 
-    NSArray *nameTextField_V = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_nameTextField]-(40)-[_surNameTextField]-[_dateOfBirthLabel]-[_dobPicker]-[_currencyPicker]" options:0 metrics:nil views:dictionaryView];
+    NSArray *nameTextField_V = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_nameTextField]-(40)-[_surNameTextField]-[_dateOfBirthLabel]-[_dobPicker]-[_currencyLabel][_currencyPicker]" options:0 metrics:nil views:dictionaryView];
     
     NSArray *nameTextField_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_nameTextField]-|" options:0 metrics:nil views:dictionaryView];
     
     NSArray *datePicker_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_dobPicker]-|" options:0 metrics:nil views:dictionaryView];
     
     NSArray *dateOfBirthLabel_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_dateOfBirthLabel]-|" options:0 metrics:nil views:dictionaryView];
+    
+    NSArray *currencyLabel_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_currencyLabel]-|" options:0 metrics:nil views:dictionaryView];
+
     
     NSArray *currencyPicker_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_currencyPicker]-|" options:0 metrics:nil views:dictionaryView];
     
@@ -137,6 +150,7 @@
     [_scrollView addConstraints:datePicker_H];
     [_scrollView addConstraints:currencyPicker_H];
     [_scrollView addConstraints:dateOfBirthLabel_H];
+    [_scrollView addConstraints:currencyLabel_H];
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollView]|" options:0 metrics:0 views:dictionaryView]];
 

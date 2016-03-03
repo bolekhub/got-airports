@@ -34,7 +34,6 @@ static NSString *kFlightCellIdentifier = @"flightCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.definesPresentationContext = YES;
-    
     _numberFormatter = [NSNumberFormatter new];
     _numberFormatter.numberStyle = kCFNumberFormatterCurrencyStyle;
     

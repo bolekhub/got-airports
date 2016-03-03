@@ -7,11 +7,13 @@
 //
 
 #import "BaseService.h"
-
+@class UIImage;
 @interface WebService : BaseService
 
 +(id)shared;
 
 -(void)getDragonFlightsWithPredicate:(NSPredicate *)predicate completion:(FlightsServiceCompletion)completion;
 -(void)getExchangeRateFromCurrency:(NSString*)fromCurrency toCurrency:(NSString*)toCurrency completion:(CurrencyServiceCompletion)completion;
+- (void)downloadImageFromUrl:(NSString*)url completion:(void(^)(UIImage *image))completion;
+
 @end

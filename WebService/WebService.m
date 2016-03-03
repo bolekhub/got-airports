@@ -104,9 +104,55 @@ static const WebService *_instance  = nil;
         //});
     }];
     [self.dataTask resume];
-
-
-    
 }
+
+
+- (void)downloadImageFromUrl:(NSString*)url completion:(void(^)(UIImage *image))completion
+{
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    
+    // create an session data task to obtain and download the app icon
+    self.dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request
+                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                       
+               // in case we want to know the response status code
+               //NSInteger HTTPStatusCode = [(NSHTTPURLResponse *)response statusCode];
+               
+               if (error != nil)
+               {
+                   if ([error code] == NSURLErrorAppTransportSecurityRequiresSecureConnection)
+                   {
+                       // if you get error NSURLErrorAppTransportSecurityRequiresSecureConnection (-1022),
+                       // then your Info.plist has not been properly configured to match the target server.
+                       //
+                       abort();
+                   }
+               }
+               [[NSOperationQueue mainQueue] addOperationWithBlock: ^{
+                   
+                   UIImage *image = [[UIImage alloc] initWithData:data];
+                   UIImage *resultImage = nil;
+                   
+                   if (image.size.width != 100 || image.size.height != 65)
+                   {
+                       CGSize itemSize = CGSizeMake(65, 65);
+                       UIGraphicsBeginImageContextWithOptions(itemSize, NO, 0.0f);
+                       CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
+                       [image drawInRect:imageRect];
+                       resultImage = UIGraphicsGetImageFromCurrentImageContext();
+                       UIGraphicsEndImageContext();
+                   }
+                   
+                   // call our completion handler to tell our client that our icon is ready for display
+                   if (completion != nil)
+                   {
+                       completion(resultImage);
+                   }
+               }];
+        }];
+    
+    [self.dataTask resume];
+}
+
 
 @end
