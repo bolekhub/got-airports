@@ -19,13 +19,23 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    
+    [[UINavigationBar appearance] setTintColor:[UIColor eYellowColor]];
+    [[UINavigationBar appearance] setTranslucent:NO];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor eBlueColor]];
+    
+    NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [UIColor whiteColor],NSForegroundColorAttributeName,
+                                    [UIColor whiteColor],NSBackgroundColorAttributeName,
+                                    @(15.3),NSStrokeWidthAttributeName,nil];
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:textAttributes];
+    
     CGRect deviceFrame = [UIScreen mainScreen].bounds;
-    //UIImageView *splashView =[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"iron"]];
-
     
     UIViewController *firstViewController = [MainViewController new];
-   // [firstViewController.view addSubview:splashView];
-    //[firstViewController.view bringSubviewToFront:splashView];
+
     
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:firstViewController];
     self.window = [[UIWindow alloc] initWithFrame:deviceFrame];

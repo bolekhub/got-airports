@@ -37,7 +37,7 @@
 
     
     // Do any additional setup after loading the view.
-  // [self loadData];
+  //[self loadData];
 }
 
 
@@ -55,18 +55,25 @@
     [[(MainView*)self.view progressView] startAnimating];
 
     [[WebService shared] getDragonFlightsWithPredicate:nil completion:^(NSArray *response, NSError *error) {
-        
-            [CoreDataStack saveWithBlock:^(NSManagedObjectContext *localContext) {
-                for (NSDictionary *segmentItem in response) {
-                    [CoreDataStack createSegmentWithData:segmentItem inContext:localContext];
-                }
-            }];
 
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"finished loading and parsing");
-            [[(MainView*)self.view progressView] stopAnimating];
-        });
-    }];
+        [CoreDataStack saveWithBlock:^(NSManagedObjectContext *localContext) {
+            for (NSDictionary *segmentItem in response) {
+                [CoreDataStack createSegmentWithData:segmentItem inContext:localContext];
+            }
+        } completion:^(NSError *error){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [CoreDataStack saveMainContext];
+                NSLog(@"finished loading and parsing");
+                [[(MainView*)self.view progressView] stopAnimating];
+            });
+
+        }];
+        
+//            [CoreDataStack saveWithBlock:^(NSManagedObjectContext *localContext) {
+//                
+//            }];
+
+            }];
 }
 
 #pragma mark - private methods

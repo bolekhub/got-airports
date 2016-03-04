@@ -19,4 +19,6 @@ static NSString *kTxtFieldNotification = @"TEXTFIELD_CHANGE";
 @property UIDatePicker *dobPicker;
 @property UIPickerView *currencyPicker;
 @property UIScrollView *scrollView;
+
+@property UITableView *tableView;
 @end

@@ -21,7 +21,7 @@ static NSString *kFlightCellIdentifier = @"flightCell";
 @property NSArray *filteredList;
 @property NSNumberFormatter *numberFormatter;
 @property (nonatomic)  UITableView *tableView;
-@property (nonatomic)  UISearchController *searchController;
+@property (nonatomic, weak)  UISearchController *searchController;
 @property NSMutableArray *indexLetters;
 @property (nonatomic)  NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic) NSFetchRequest *searchFetchRequest;
@@ -33,6 +33,8 @@ static NSString *kFlightCellIdentifier = @"flightCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"Available Dragon's rides";
+
     self.definesPresentationContext = YES;
     _numberFormatter = [NSNumberFormatter new];
     _numberFormatter.numberStyle = kCFNumberFormatterCurrencyStyle;

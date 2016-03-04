@@ -24,5 +24,8 @@
 
 +(void)saveMainContext;
 
-+ (void)saveWithBlock:(void(^)(NSManagedObjectContext *localContext))block;
++ (void)saveWithBlock:(void(^)(NSManagedObjectContext *localContext))block completion:(void(^)(NSError *error))completion;
+
++ (void)saveWithBlockAndWait:(void(^)(NSManagedObjectContext *localContext))block;
+
 @end

@@ -2,7 +2,7 @@
 //  FlightDetails+CoreDataProperties.m
 //  DragonRides
 //
-//  Created by Boris Chirino on 03/03/16.
+//  Created by Boris Chirino on 04/03/16.
 //  Copyright © 2016 Boris Chirino. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -13,14 +13,14 @@
 
 @implementation FlightDetails (CoreDataProperties)
 
-@dynamic origin;
-@dynamic destination;
 @dynamic airline;
 @dynamic airlineImageUrlString;
 @dynamic arrivalDate;
 @dynamic arrivalTime;
-@dynamic departureTime;
 @dynamic departureDate;
+@dynamic departureTime;
+@dynamic destination;
+@dynamic origin;
 @dynamic inboundSegment;
 @dynamic outboundSegment;
 

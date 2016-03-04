@@ -80,7 +80,7 @@
  *
  *  @param block this block is used to create objects using the given localcontext, wich is a private queue
  */
-+ (void)saveWithBlock:(void(^)(NSManagedObjectContext *localContext))block{
++ (void)saveWithBlock:(void(^)(NSManagedObjectContext *localContext))block completion:(void(^)(NSError *error))completion{
     NSManagedObjectContext *localContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     [localContext setParentContext:[self mainContext]];
 
@@ -92,12 +92,26 @@
         [localContext save:&error];
         if (error) {
             NSLog(@"Error saving on %@. /n error %@", NSStringFromSelector(_cmd), error.localizedDescription);
+            completion(error);
+        }else{
+            completion(nil);
         }
     }];
 }
 
 + (void)saveWithBlockAndWait:(void(^)(NSManagedObjectContext *localContext))block{
+    NSManagedObjectContext *localContext = [CoreDataStack mainContext];
     
+    [localContext performBlockAndWait:^{
+        if (block) {
+            block(localContext);
+        }
+        NSError *error = nil;
+        [localContext save:&error];
+        if (error) {
+            NSLog(@"Error saving on %@. /n error %@", NSStringFromSelector(_cmd), error.localizedDescription);
+        }
+    }];
 }
 
 +(BOOL)updateWarrior:(NSManagedObjectID*)warriorId withData:(NSDictionary*)data inContext:(NSManagedObjectContext*)context{

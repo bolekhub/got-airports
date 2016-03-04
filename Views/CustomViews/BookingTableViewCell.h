@@ -9,10 +9,14 @@
 #import <UIKit/UIKit.h>
 
 @class Segment;
+typedef NS_ENUM(NSUInteger, BOOKINGCELLUSE) {
+    BOOKINGCELLUSE_ARRIVAL,
+    BOOKINGCELLUSE_DEPARTURE
+};
 
 @interface BookingTableViewCell : UITableViewCell
 @property Segment *segment;
 
-- (instancetype)initWithSegment:(Segment*)segment reuseIdentifier:(NSString*)reuseIdentifier;
+- (instancetype)initWithSegment:(Segment*)segment reuseIdentifier:(NSString*)reuseIdentifier cellPurpose:(BOOKINGCELLUSE)cellPurpose;
 
 @end

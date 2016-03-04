@@ -25,6 +25,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"Segments";
+
     // Do any additional setup after loading the view.
 }
 
@@ -40,7 +42,6 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    self.title = @"Your flights";
 }
 
 
