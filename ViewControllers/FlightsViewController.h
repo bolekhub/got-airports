@@ -9,4 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface FlightsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate>
+@property (nonatomic) BOOL userSettings;
 @end

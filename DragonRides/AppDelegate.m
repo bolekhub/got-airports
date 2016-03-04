@@ -22,7 +22,7 @@
     
     //MARK: UICustomization
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-
+    
     
     [[UINavigationBar appearance] setTintColor:[UIColor eYellowColor]];
     [[UINavigationBar appearance] setTranslucent:NO];

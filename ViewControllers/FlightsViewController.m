@@ -110,42 +110,15 @@ static NSString *kFlightCellIdentifier = @"flightCell";
 
 
 #pragma mark -TableViewDataSOurce
+-(void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    UITableViewHeaderFooterView * headerview = (UITableViewHeaderFooterView *)view;
+    headerview.contentView.backgroundColor = [UIColor eBlueColor];
+    headerview.textLabel.textColor = [UIColor whiteColor];
+}
 
-//- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView{
-//    NSMutableOrderedSet *letters = [[NSMutableOrderedSet alloc] init];
-//    NSArray *AllObjects ;
-//    __block NSString *outboundName;
-//    if (![self.searchController isActive]) {
-//        AllObjects = [self.fetchedResultsController fetchedObjects];
-//        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
-//        dispatch_apply([AllObjects count]-1, queue, ^(size_t i) {
-//            Segment *segmentItem = AllObjects[i];
-//            outboundName = segmentItem.outbound.destination;
-//            [letters addObject:[outboundName substringToIndex:1]];
-//        });
-//        [letters sortUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
-//            if (obj1>obj2) {
-//                return true;
-//            }else
-//                return false;
-//            
-//        }];
-//
-//    }else if([self.filteredList count]>0){
-//        
-//
-//    }
-//    
-//    
-//        self.indexLetters = [[NSMutableArray alloc] initWithArray: letters.array];
-//    return self.indexLetters;
-//}
-
-//- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
-//    return [self.indexLetters indexOfObject:title];
-//}
-
-
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
+    return 90.0f;
+}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if ([self.searchController isActive]) {
         return [self.filteredList count];
@@ -236,17 +209,24 @@ static NSString *kFlightCellIdentifier = @"flightCell";
     NSManagedObjectContext *moc = [CoreDataStack mainContext];
     if (moc)
     {
+        Warrior *currentUser = [CoreDataStack getWarriorInContext:moc];
+        
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        NSPredicate *predicate = nil;
+        if (self.userSettings) {
+           predicate  = [NSPredicate predicateWithFormat:@"warriorTryps.name == %@",currentUser.name];
+        }else{
+        }
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"Segment" inManagedObjectContext:moc];
         [fetchRequest setEntity:entity];
         
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"outbound.destination = %@ AND outbound.origin = %@",@"Braavos", @"Bayasabhad"];
+        
         
         //NSSortDescriptor *priceDescriptor = [[NSSortDescriptor alloc] initWithKey:@"price" ascending:YES];
         NSSortDescriptor *nameDescriptor = [[NSSortDescriptor alloc] initWithKey:@"outbound.destination" ascending:YES];
 
         [fetchRequest setSortDescriptors:@[nameDescriptor]];
-        [fetchRequest setPredicate:nil];
+        [fetchRequest setPredicate:predicate];
         
         NSFetchedResultsController *frc = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                                                               managedObjectContext:moc

@@ -46,6 +46,13 @@
 
 
 #pragma mark - TableView Datasource
+
+-(void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    UITableViewHeaderFooterView * headerview = (UITableViewHeaderFooterView *)view;
+    headerview.contentView.backgroundColor = [UIColor eBlueColor];
+    headerview.textLabel.textColor = [UIColor whiteColor];
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
         id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];

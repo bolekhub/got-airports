@@ -36,7 +36,10 @@
     }
 
     // Do any additional setup after loading the view.
-  //[self loadData];
+    NSArray *allSegments = [CoreDataStack getAllSegments:[CoreDataStack mainContext]];
+    if (allSegments.count == 0) {
+        [self loadData];
+    }
 }
 
 
@@ -68,12 +71,7 @@
             });
 
         }];
-        
-//            [CoreDataStack saveWithBlock:^(NSManagedObjectContext *localContext) {
-//                
-//            }];
-
-            }];
+    }];
 }
 
 #pragma mark - private methods
@@ -93,7 +91,7 @@
 
 -(void)searchRides:(id)sender {
     FlightsViewController *vc = [FlightsViewController new];
-
+    vc.userSettings = NO;
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nc animated:YES completion:nil];
 }

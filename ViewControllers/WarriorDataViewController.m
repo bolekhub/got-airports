@@ -12,11 +12,14 @@
 #import "AppDelegate.h"
 #import "Warrior.h"
 #import "TextFieldTableViewCell.h"
+#import "FlightsViewController.h"
 
 static NSString *kNameTextFieldIdentifier    = @"nameCellIdentifier";
 static NSString *kSurnameTextFieldIdentifier = @"surNameCellIdentifier";
 static NSString *kDobTextFieldIdentifier     = @"dobCellIdentifier";
 static NSString *kCurrencyFieldIdentifier    = @"currencyCellIdentifier";
+static NSString *kTripsFieldIdentifier       = @"tripsCellIdentifier";
+
 
 @interface WarriorDataViewController ()<UITextFieldDelegate>
 @property (nonatomic) WarriorDataView *dataView;
@@ -70,7 +73,7 @@ static NSString *kCurrencyFieldIdentifier    = @"currencyCellIdentifier";
 #pragma mark - TableView Datasource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return 5;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -135,6 +138,15 @@ static NSString *kCurrencyFieldIdentifier    = @"currencyCellIdentifier";
             }
         }
             break;
+        case 4:{
+            cell = [self.tableView dequeueReusableCellWithIdentifier:kTripsFieldIdentifier];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kTripsFieldIdentifier];
+                cell.textLabel.text = @"Previous trips";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }
+        }
+            break;
 
         default:
             break;
@@ -145,6 +157,14 @@ static NSString *kCurrencyFieldIdentifier    = @"currencyCellIdentifier";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
+    if (indexPath.row == 4) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        
+        FlightsViewController *vc = [FlightsViewController new];
+        vc.userSettings = YES;
+        [self.navigationController pushViewController:vc
+                                             animated:YES];
+    }
 }
 
 
