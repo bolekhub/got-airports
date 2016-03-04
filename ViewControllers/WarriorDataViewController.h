@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 @class Warrior;
-@interface WarriorDataViewController : UIViewController
+@interface WarriorDataViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 @property Warrior *warrior;
 @end

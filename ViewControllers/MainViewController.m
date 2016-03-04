@@ -35,10 +35,10 @@
         mainView.welcomeMessage.text = [NSString stringWithFormat:@"Welcomeback %@ %@",p.name, p.surname];
     }
 
-    
     // Do any additional setup after loading the view.
   //[self loadData];
 }
+
 
 
 -(void)loadView{

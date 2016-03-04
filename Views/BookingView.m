@@ -10,7 +10,7 @@
 #import "BookingViewController.h"
 
 @interface BookingView ()
-
+@property UIImageView *backgroundView ;
 @end
 
 @implementation BookingView
@@ -19,12 +19,20 @@
 {
     self = [super init];
     if (self) {
-        self.backgroundColor = [UIColor greenColor];
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+        _tableView.backgroundColor = [UIColor clearColor];
+
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
+        [_tableView setShowsVerticalScrollIndicator:NO];
+        _tableView.allowsSelection = NO;
+        _backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
+        _backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
+        _backgroundView.contentMode = UIViewContentModeScaleToFill;
         
+        self.backgroundColor = [UIColor grayColor];
         [self addSubview:_tableView];
+        [self insertSubview:_backgroundView belowSubview:_tableView];
         [self updateConstraints];
         
     }
@@ -42,12 +50,15 @@
 - (void)updateConstraints{
     [super updateConstraints];
     
-    NSDictionary *dictionaryView = NSDictionaryOfVariableBindings(_tableView);
+    NSDictionary *dictionaryView = NSDictionaryOfVariableBindings(_tableView, _backgroundView);
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_tableView]|" options:0 metrics:0 views:dictionaryView]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_backgroundView]|" options:0 metrics:0 views:dictionaryView]];
+
     
-    
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_tableView]|" options:0 metrics:0 views:dictionaryView]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_tableView]-|" options:0 metrics:0 views:dictionaryView]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_backgroundView]|" options:0 metrics:0 views:dictionaryView]];
+
 }
 
 

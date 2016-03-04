@@ -7,18 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
-@class BCScrollView;
-
-static NSString *kTxtFieldNotification = @"TEXTFIELD_CHANGE";
+@class WarriorDataViewController;
 
 @interface WarriorDataView : UIView
 @property NSArray *currencies ;
 @property NSString *selectedCurrency;
-@property UITextField *nameTextField;
-@property UITextField *surNameTextField;
+//@property UITextField *nameTextField;
+//@property UITextField *surNameTextField;
 @property UIDatePicker *dobPicker;
 @property UIPickerView *currencyPicker;
-@property UIScrollView *scrollView;
+//@property UIScrollView *scrollView;
 
 @property UITableView *tableView;
+@property (nonatomic) WarriorDataViewController *controller;
+
+
 @end

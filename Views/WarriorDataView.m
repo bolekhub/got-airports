@@ -7,10 +7,15 @@
 //
 
 #import "WarriorDataView.h"
+#import "WarriorDataViewController.h"
 
-@interface WarriorDataView () <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate>
+NSString *kPickerChangeNotification = @"PICKER_CHANGE";
+
+
+@interface WarriorDataView () <UIPickerViewDataSource, UIPickerViewDelegate>
 @property UILabel *dateOfBirthLabel;
 @property UILabel *currencyLabel;
+@property UIImageView *backgroundView ;
 
 
 @end
@@ -25,52 +30,14 @@
         
         _currencies = [NSArray arrayWithObjects: @"GBP", @"USD", @"EUR", @"YJP", nil];
         self.backgroundColor = [UIColor grayColor];
-        
-        _scrollView = [UIScrollView new];
-        _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-        _scrollView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
-        _scrollView.layer.borderColor = [UIColor redColor].CGColor;
-        _scrollView.layer.borderWidth = 1.0f;
-        
-        
-        _dateOfBirthLabel = [UILabel new];
-        [_dateOfBirthLabel setText:@"Date Of birth"];
-        _dateOfBirthLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [_dateOfBirthLabel setFont:[UIFont systemFontOfSize:22.0]];
-        [_dateOfBirthLabel setTextColor:[UIColor whiteColor]];
-        [_dateOfBirthLabel setTextAlignment:NSTextAlignmentCenter];
-        
-        _currencyLabel = [UILabel new];
-        [_currencyLabel setText:@"Currency"];
-        _currencyLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [_currencyLabel setFont:[UIFont systemFontOfSize:22.0]];
-        [_currencyLabel setTextColor:[UIColor whiteColor]];
-        [_currencyLabel setTextAlignment:NSTextAlignmentCenter];
-        
-        _nameTextField = [UITextField new];
-        _nameTextField.layer.borderColor = [UIColor redColor].CGColor;
-        _nameTextField.layer.borderWidth = 1.0f;
-        _nameTextField.userInteractionEnabled = YES;
+        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+        _tableView.translatesAutoresizingMaskIntoConstraints = NO;
+        _tableView.backgroundColor = [UIColor clearColor];
 
-        _nameTextField.layer.cornerRadius = 10.0f;
-        _nameTextField.delegate = self;
-        _nameTextField.layer.borderColor = [UIColor blackColor].CGColor;
-        _nameTextField.layer.borderWidth = 1.5f;
-        _nameTextField.translatesAutoresizingMaskIntoConstraints = NO;
-        _nameTextField.placeholder = @"Warrior name";
-        [_nameTextField setFont:[UIFont systemFontOfSize:22.0]];
-        [_nameTextField setTextColor:[UIColor whiteColor]];
-        [_nameTextField setTextAlignment:NSTextAlignmentCenter];
         
-        _surNameTextField = [UITextField new];
-        _surNameTextField.layer.cornerRadius = 10.0f;
-        _surNameTextField.layer.borderColor = [UIColor blackColor].CGColor;
-        _surNameTextField.layer.borderWidth = 1.5f;
-        _surNameTextField.translatesAutoresizingMaskIntoConstraints = NO;
-        _surNameTextField.placeholder = @"Surname";
-        [_surNameTextField setFont:[UIFont systemFontOfSize:22.0]];
-        [_surNameTextField setTextColor:[UIColor whiteColor]];
-        [_surNameTextField setTextAlignment:NSTextAlignmentCenter];
+        _backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
+        _backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
+        _backgroundView.contentMode = UIViewContentModeScaleToFill;
         
         _dobPicker = [UIDatePicker new];
         _dobPicker.translatesAutoresizingMaskIntoConstraints = NO;
@@ -81,27 +48,10 @@
         _currencyPicker.dataSource = self;
         _currencyPicker.delegate = self;
 
-        
-        [self addSubview:_scrollView];
+//        
+        [self addSubview:_tableView];
+        [self insertSubview:_backgroundView belowSubview:_tableView];
 
-
-        // was contentView
-        [_scrollView addSubview:_nameTextField];
-        [_scrollView addSubview:_surNameTextField];
-        [_scrollView addSubview:_dobPicker];
-        [_scrollView addSubview:_dateOfBirthLabel];
-        [_scrollView addSubview:_currencyPicker];
-        [_scrollView addSubview:_currencyLabel];
-        
-        // [_scrollView addSubview:_contentView];
-
-
-//        [self addSubview:_nameTextField];
-//        [self addSubview:_surNameTextField];
-//        [self addSubview:_dobPicker];
-//        [self addSubview:_dateOfBirthLabel];
-//        [self addSubview:_currencyPicker];
-//
         [self updateConstraints];
     }
     return self;
@@ -112,60 +62,25 @@
 - (void)updateConstraints{
     [super updateConstraints];
     
-    UIView *_superview = self;
-    NSDictionary *dictionaryView = NSDictionaryOfVariableBindings(_nameTextField, _surNameTextField, _dobPicker, _dateOfBirthLabel, _currencyPicker, _scrollView,_superview, _currencyLabel);
+    NSDictionary *dictionaryView = NSDictionaryOfVariableBindings( _tableView, _backgroundView);
     
-
-    NSArray *nameTextField_V = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_nameTextField]-(40)-[_surNameTextField]-[_dateOfBirthLabel]-[_dobPicker]-[_currencyLabel][_currencyPicker]" options:0 metrics:nil views:dictionaryView];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_backgroundView]|" options:0 metrics:0 views:dictionaryView]];
     
-    NSArray *nameTextField_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_nameTextField]-|" options:0 metrics:nil views:dictionaryView];
-    
-    NSArray *datePicker_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_dobPicker]-|" options:0 metrics:nil views:dictionaryView];
-    
-    NSArray *dateOfBirthLabel_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_dateOfBirthLabel]-|" options:0 metrics:nil views:dictionaryView];
-    
-    NSArray *currencyLabel_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_currencyLabel]-|" options:0 metrics:nil views:dictionaryView];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_backgroundView]|" options:0 metrics:0 views:dictionaryView]];
 
     
-    NSArray *currencyPicker_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_currencyPicker]-|" options:0 metrics:nil views:dictionaryView];
-    
-    // SURNAME TEXTFIELD
-    NSArray *surNameTextField_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_surNameTextField]-|" options:0 metrics:nil views:dictionaryView];
-    
-    
-    
-    //[self addConstraint:scroll_V];
-    //[self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_scrollView]-|" options:0 metrics:0 views:dictionaryView]];
-    
-    
-    
-   // [_scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|" options:0 metrics:0 views:dictionaryView]];
-    //[_scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentView]|" options:0 metrics:0 views:dictionaryView]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_tableView]|" options:0 metrics:0 views:dictionaryView]];
 
     
-    //_contentView
-    [_scrollView addConstraints:nameTextField_H];
-    [_scrollView addConstraints:nameTextField_V];
-    [_scrollView addConstraints:surNameTextField_H];
-    [_scrollView addConstraints:datePicker_H];
-    [_scrollView addConstraints:currencyPicker_H];
-    [_scrollView addConstraints:dateOfBirthLabel_H];
-    [_scrollView addConstraints:currencyLabel_H];
-    
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollView]|" options:0 metrics:0 views:dictionaryView]];
-
-    
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_scrollView]-|" options:0 metrics:0 views:dictionaryView]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_tableView]-|" options:0 metrics:0 views:dictionaryView]];
     
 
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.scrollView.contentInset = UIEdgeInsetsMake(84, 0, 0, 0);
-    self.scrollView.contentSize = CGSizeMake(self.bounds.size.width, self.frame.origin.y + self.frame.size.height + 100);
-    [self.scrollView setContentOffset:CGPointMake(0, self.scrollView .contentOffset.y)];
-    //self.scrollView.contentSize = self.bounds.size;
+    self.tableView.delegate = self.controller;
+    self.tableView.dataSource = self.controller;
 }
 
 
@@ -184,13 +99,9 @@
     return self.currencies[row];
 }
 
-#pragma mark - UITextfieldDelegate
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-    [[NSNotificationCenter defaultCenter] postNotificationName:kTxtFieldNotification object:textField];
-    return YES;
-}
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+    [[NSNotificationCenter defaultCenter] postNotificationName:kPickerChangeNotification object:self.currencies[row]];
     self.selectedCurrency = self.currencies[row];
 }
 

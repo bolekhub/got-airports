@@ -20,10 +20,19 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+    //MARK: UICustomization
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+
     
     [[UINavigationBar appearance] setTintColor:[UIColor eYellowColor]];
     [[UINavigationBar appearance] setTranslucent:NO];
     [[UINavigationBar appearance] setBarTintColor:[UIColor eBlueColor]];
+    
+    [[UIToolbar appearance] setTintColor:[UIColor eYellowColor]];
+    [[UIToolbar appearance] setTranslucent:NO];
+    [[UIToolbar appearance] setBarTintColor:[UIColor eBlueColor]];
+    
+    [[UIPickerView appearance] setBackgroundColor:[UIColor whiteColor]];
     
     NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                     [UIColor whiteColor],NSForegroundColorAttributeName,
