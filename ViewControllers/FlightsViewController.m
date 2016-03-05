@@ -15,17 +15,15 @@
 #import "Warrior.h"
 #import "SegmentViewController.h"
 
+
 static NSString *kFlightCellIdentifier = @"flightCell";
 
 @interface FlightsViewController ()<NSFetchedResultsControllerDelegate>
 @property NSArray *filteredList;
-@property NSNumberFormatter *numberFormatter;
-@property (nonatomic)  UITableView *tableView;
+//@property (nonatomic)  UITableView *tableView;
 @property (nonatomic, weak)  UISearchController *searchController;
-@property NSMutableArray *indexLetters;
 @property (nonatomic)  NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic) NSFetchRequest *searchFetchRequest;
-
 
 @end
 
@@ -33,21 +31,9 @@ static NSString *kFlightCellIdentifier = @"flightCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Available Dragon's rides";
 
     self.definesPresentationContext = YES;
-    _numberFormatter = [NSNumberFormatter new];
-    _numberFormatter.numberStyle = kCFNumberFormatterCurrencyStyle;
-    
-    NSManagedObjectContext *context = [(AppDelegate*)[UIApplication sharedApplication].delegate managedObjectContext];
-    
-    Warrior *registeredUser = [CoreDataStack getWarriorInContext:context];
-    if (registeredUser) {
-        _numberFormatter.currencyCode = registeredUser.currency;
-    }else{
-        _numberFormatter.currencyCode = @"EUR";
-    }
-    
+        
     // Do any additional setup after loading the view.
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closeController:)]];
 
@@ -56,6 +42,19 @@ static NSString *kFlightCellIdentifier = @"flightCell";
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.tableView setAlpha:0];
+    __weak typeof(self) weakSelf = self;
+    [DragonAnimation showInView:self.view];
+    [UIView animateWithDuration:1 delay:2 options:UIViewAnimationOptionTransitionNone animations:^{
+        [weakSelf.tableView setAlpha:1.0];
+    } completion:^(BOOL finished) {
+        [DragonAnimation hideDragon];
+        [weakSelf.tableView setAlpha:1.0];
+    }];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -140,13 +139,20 @@ static NSString *kFlightCellIdentifier = @"flightCell";
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     Segment *segmentItem = nil;
     NSString *sectionTitle = nil;
+    NSString *stringPrice = nil;
     if ([self.searchController isActive]) {
 //        segmentItem = self.filteredList[section];
 //        NSString *stringPrice = [self.numberFormatter stringFromNumber:segmentItem.price];
 //        sectionTitle = [NSString stringWithFormat:@"starting at %@", stringPrice];
     }else{
         segmentItem = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section]];
-        NSString *stringPrice = [self.numberFormatter stringFromNumber:segmentItem.price];
+        if (self.exchangeRate != nil) {
+            NSDecimalNumber *ridePrice = [[NSDecimalNumber alloc] initWithDouble:[segmentItem.price doubleValue]];
+            NSDecimalNumber *convertedPrice = [ridePrice decimalNumberByMultiplyingBy: self.exchangeRate];
+            stringPrice = [self.numberFormatter stringFromNumber:convertedPrice];
+        }else{
+            stringPrice = [self.numberFormatter stringFromNumber:segmentItem.price];
+        }
         id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
         sectionTitle = [NSString stringWithFormat:@"%@ starting at %@", [sectionInfo name], stringPrice];
     }
@@ -173,8 +179,14 @@ static NSString *kFlightCellIdentifier = @"flightCell";
     cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@ / %@ - %@",
                            segmentItem.inbound.destination, segmentItem.inbound.origin,
                            segmentItem.outbound.destination, segmentItem.outbound.origin];
-
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"Price : .%@", [self.numberFormatter stringFromNumber:segmentItem.price]];
+    if (self.exchangeRate != nil) {
+        NSDecimalNumber *ridePrice = [[NSDecimalNumber alloc] initWithDouble:[segmentItem.price doubleValue]];
+        NSDecimalNumber *convertedPrice = [ridePrice decimalNumberByMultiplyingBy: self.exchangeRate];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"Price : .%@", [self.numberFormatter stringFromNumber:convertedPrice]];
+    }else{
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"Price : .%@", [self.numberFormatter stringFromNumber:segmentItem.price]];
+    }
+    
     return cell;
 }
 
@@ -182,14 +194,16 @@ static NSString *kFlightCellIdentifier = @"flightCell";
     Segment *segmentItem = segmentItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
     SegmentViewController *vc = [SegmentViewController new];
     vc.selectedSegment = segmentItem;
+    vc.exchangeRate = self.exchangeRate;
+    vc.numberFormatter = self.numberFormatter;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 
 #pragma mark - ComputedProperties
-- (UITableView *)tableView{
-    return [(FlightsView*)self.view tableView];
-}
+//- (UITableView *)tableView{
+//    return [(FlightsView*)self.view tableView];
+//}
 
 - (UISearchController *)searchController{
     return [(FlightsView*)self.view searchController];

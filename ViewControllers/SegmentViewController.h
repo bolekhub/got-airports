@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CommonViewController.h"
 
 static NSString *kSegmentCellIdentifier = @"segmentCell";
 
 
 @class Segment;
-@interface SegmentViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface SegmentViewController : CommonViewController<UITableViewDataSource, UITableViewDelegate>
 @property  Segment *selectedSegment;
+
+
 @end

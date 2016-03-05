@@ -83,7 +83,7 @@
     
     //SEARCH RIDES BUTTON
     
-    NSArray *searchRide_V = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_searchRidesButton]-[_userSettingButton]" options:0 metrics:nil views:dictionaryView];
+    NSArray *searchRide_V = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_searchRidesButton(50)]-(25)-[_userSettingButton(50)]" options:0 metrics:nil views:dictionaryView];
     
    NSArray *searchRide_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_searchRidesButton]-|" options:0 metrics:nil views:dictionaryView];
     

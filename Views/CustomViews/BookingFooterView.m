@@ -7,6 +7,7 @@
 //
 
 #import "BookingFooterView.h"
+#import "MaterialControl.h"
 
 @implementation BookingFooterView
 
@@ -21,7 +22,7 @@
        // [_resumeLabel setBackgroundColor:[UIColor blackColor]];
         [_resumeLabel setTextColor:[UIColor blackColor]];
         
-        _bookButton = [UIButton new];
+        _bookButton = [MaterialControl new];
         _bookButton.translatesAutoresizingMaskIntoConstraints = NO;
         NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                         [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.3],NSFontAttributeName,
@@ -29,6 +30,7 @@
                                         nil];
         
         [[UINavigationBar appearance] setTitleTextAttributes:textAttributes];
+        
         NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:@"Book now" attributes:textAttributes];
         [_bookButton setAttributedTitle:attrString forState:UIControlStateNormal];
         [_bookButton setTitle:@"Book now" forState:UIControlStateNormal];

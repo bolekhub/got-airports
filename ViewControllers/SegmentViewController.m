@@ -17,6 +17,7 @@
 
 @interface SegmentViewController ()<NSFetchedResultsControllerDelegate>
 @property (nonatomic)  NSFetchedResultsController *fetchedResultsController;
+
 @end
 
 @implementation SegmentViewController
@@ -25,7 +26,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Segments";
 
     // Do any additional setup after loading the view.
 }
@@ -90,8 +90,15 @@
     cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@ / %@ - %@",
                            segmentItem.inbound.destination, segmentItem.inbound.origin,
                            segmentItem.outbound.destination, segmentItem.outbound.origin];
+    if (self.exchangeRate != nil) {
+        NSDecimalNumber *ridePrice = [[NSDecimalNumber alloc] initWithDouble:[segmentItem.price doubleValue]];
+        NSDecimalNumber *convertedPrice = [ridePrice decimalNumberByMultiplyingBy: self.exchangeRate];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"Price : .%@", [self.numberFormatter stringFromNumber:convertedPrice]];
+    }else{
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"Price : .%@", [self.numberFormatter stringFromNumber:segmentItem.price]];
+    }
     
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"Price : .%.2f", [segmentItem.price doubleValue]];
+    //cell.detailTextLabel.text = [NSString stringWithFormat:@"Price : .%.2f", [segmentItem.price doubleValue]];
     return cell;
 }
 
@@ -149,11 +156,6 @@
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     [self.tableView reloadData];
-}
-
-#pragma mark - ComputedProperties
-- (UITableView *)tableView{
-    return [(SegmentView*)self.view tableView];
 }
 
 

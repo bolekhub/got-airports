@@ -25,9 +25,6 @@ static NSString *kBookingCellUserDetailsIdentifier  = @"bookingCellUserIdentifie
 
 
 @interface BookingViewController ()
-@property NSNumberFormatter *numberFormatter;
-@property (nonatomic)  UITableView *tableView;
-@property Warrior *currentUser;
 @property (nonatomic) BookingFooterView *footerView;
 @end
 
@@ -35,15 +32,7 @@ static NSString *kBookingCellUserDetailsIdentifier  = @"bookingCellUserIdentifie
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Your ride details";
-
-    _currentUser = [CoreDataStack getWarriorInContext:[CoreDataStack mainContext]];
-    
     // Do any additional setup after loading the view.
-    _numberFormatter = [NSNumberFormatter new];
-    _numberFormatter.numberStyle = kCFNumberFormatterCurrencyStyle;
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -148,15 +137,12 @@ static NSString *kBookingCellUserDetailsIdentifier  = @"bookingCellUserIdentifie
 
 - (void)bookAction:(id)sender{
     
-    [CoreDataStack saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
-        [self.currentUser addMyTrypsObject:self.selectedSegment];
-    }];
+//    [CoreDataStack saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+//        [self.currentUser addMyTrypsObject:self.selectedSegment];
+//    }];
 }
 
 #pragma mark - ComputedProperties
-- (UITableView *)tableView{
-    return [(BookingView*)self.view tableView];
-}
 
 /**
  *  Footer view must be protected because everytime the footer is scrolled out of screen and appear again the view will be created over and over. with this approach a single instance will be created
@@ -166,7 +152,16 @@ static NSString *kBookingCellUserDetailsIdentifier  = @"bookingCellUserIdentifie
 - (BookingFooterView *)footerView{
     if (_footerView == nil) {
             _footerView = [BookingFooterView new];
+        
+        if (self.exchangeRate != nil) {
+            NSDecimalNumber *ridePrice = [[NSDecimalNumber alloc] initWithDouble:[self.selectedSegment.price doubleValue]];
+            NSDecimalNumber *convertedPrice = [ridePrice decimalNumberByMultiplyingBy: self.exchangeRate];
+            _footerView.resumeLabel.text = [NSString stringWithFormat:@"Ride cost %@", [self.numberFormatter stringFromNumber:convertedPrice]];
+
+        }else{
             _footerView.resumeLabel.text = [NSString stringWithFormat:@"Ride cost %@", [self.numberFormatter stringFromNumber:self.selectedSegment.price]];
+        }
+        
         [_footerView.bookButton addTarget:self action:@selector(bookAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     

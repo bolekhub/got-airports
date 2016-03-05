@@ -11,6 +11,7 @@
 #import "CoreDataStack.h"
 #import "AppDelegate.h"
 #import "Warrior.h"
+#import "WebService.h"
 #import "TextFieldTableViewCell.h"
 #import "FlightsViewController.h"
 
@@ -20,6 +21,7 @@ static NSString *kDobTextFieldIdentifier     = @"dobCellIdentifier";
 static NSString *kCurrencyFieldIdentifier    = @"currencyCellIdentifier";
 static NSString *kTripsFieldIdentifier       = @"tripsCellIdentifier";
 
+NSString *kExchangeRateValue = @"EXCHANGE_RATE_VALUE";
 
 @interface WarriorDataViewController ()<UITextFieldDelegate>
 @property (nonatomic) WarriorDataView *dataView;
@@ -41,20 +43,12 @@ static NSString *kTripsFieldIdentifier       = @"tripsCellIdentifier";
     
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveData:)]];
 
-    if (!self.warrior) {
-        [self.navigationItem.rightBarButtonItem setEnabled:NO];
-    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
     [self.dataView.dobPicker addTarget:self action:@selector(datePickerFinishedRotation:) forControlEvents:UIControlEventValueChanged];
-//    if (self.warrior) {
-//        NSUInteger currencyIndex = [self.dataView.currencies indexOfObject:self.warrior.currency];
-//        self.dataView.selectedCurrency = self.dataView.currencies[currencyIndex];
-//        [self.dataView.currencyPicker selectRow:currencyIndex inComponent:0 animated:YES];
-//    }
 
 }
 
@@ -199,11 +193,25 @@ static NSString *kTripsFieldIdentifier       = @"tripsCellIdentifier";
 -(void)saveData:(id)sender{
     TextFieldTableViewCell *nameCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     
-      TextFieldTableViewCell *surNameCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    TextFieldTableViewCell *surNameCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
     
     TextFieldTableViewCell *dobCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
     
-      TextFieldTableViewCell *currencyCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]];
+    TextFieldTableViewCell *currencyCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]];
+    
+    
+    if (nameCell.textField.text.length == 0 || surNameCell.textField.text.length == 0 || dobCell.textField.text == 0 || currencyCell.textField.text.length== 0) {
+        
+        nameCell.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"error" attributes:@{NSForegroundColorAttributeName: [UIColor redColor]}];
+
+        
+        //NSIndexPath *ip = [self.tableView indexPathForCell:nameCell];
+        //nameCell.layer.borderColor = [UIColor redColor].CGColor;
+        //[nameCell setNeedsDisplay];
+        //[nameCell setNeedsLayout];
+        //[self.tableView reloadRowsAtIndexPaths:@[ip] withRowAnimation:UITableViewRowAnimationAutomatic];
+        return;
+    }
 
     if (!self.warrior) {
         [CoreDataStack saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
@@ -214,9 +222,29 @@ static NSString *kTripsFieldIdentifier       = @"tripsCellIdentifier";
             NSDate *date = [self.dateFormatter dateFromString:dobCell.textField.text];
             newObject.dob = date;
             newObject.currency = currencyCell.textField.text;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self dismissViewControllerAnimated:YES completion:nil];
+            });
         }];
         
+        [[WebService shared] getExchangeRateFromCurrency:@"EUR" toCurrency:currencyCell.textField.text completion:^(NSNumber *rate, NSError *error) {
+            if (error == nil) {
+                [[NSUserDefaults standardUserDefaults] setObject:rate forKey:kExchangeRateValue];
+            }
+        }];
+
+        
     }else{
+        
+        if (![self.warrior.currency isEqualToString:currencyCell.textField.text]) {
+            [[WebService shared] getExchangeRateFromCurrency:@"EUR" toCurrency:currencyCell.textField.text completion:^(NSNumber *rate, NSError *error) {
+                if (error == nil) {
+                    [[NSUserDefaults standardUserDefaults] setObject:rate forKey:kExchangeRateValue];
+                }
+            }];
+        }
+        
         [CoreDataStack saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
             self.warrior.name = nameCell.textField.text;
             self.warrior.surname = surNameCell.textField.text;
@@ -224,6 +252,11 @@ static NSString *kTripsFieldIdentifier       = @"tripsCellIdentifier";
             NSDate *date = [self.dateFormatter dateFromString:dobCell.textField.text];
             self.warrior.dob = date;
             self.warrior.currency = currencyCell.textField.text;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self dismissViewControllerAnimated:YES completion:nil];
+            });
+            
         }];
    }
 }
@@ -266,10 +299,10 @@ static NSString *kTripsFieldIdentifier       = @"tripsCellIdentifier";
     if (!_keyboardToolBar) {
         _keyboardToolBar = [[UIToolbar alloc] init];
         [_keyboardToolBar sizeToFit];
-        
+        UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
         UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissKeyboard:)];
         
-        [_keyboardToolBar setItems:@[closeButton]];
+        [_keyboardToolBar setItems:@[flexSpace, closeButton]];
 
     }
     return _keyboardToolBar;

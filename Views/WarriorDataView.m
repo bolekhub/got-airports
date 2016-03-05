@@ -28,7 +28,7 @@ NSString *kPickerChangeNotification = @"PICKER_CHANGE";
     if (self) {
     
         
-        _currencies = [NSArray arrayWithObjects: @"GBP", @"USD", @"EUR", @"YJP", nil];
+        _currencies = [NSArray arrayWithObjects: @"GBP", @"USD", @"EUR", @"JPY", nil];
         self.backgroundColor = [UIColor grayColor];
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;

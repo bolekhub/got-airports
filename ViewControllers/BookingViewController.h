@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "CommonViewController.h"
 @class Segment;
-@interface BookingViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface BookingViewController :CommonViewController  <UITableViewDelegate, UITableViewDataSource>
 @property Segment *selectedSegment;
 @end
