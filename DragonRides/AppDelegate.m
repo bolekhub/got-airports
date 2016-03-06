@@ -93,8 +93,10 @@
     if (_managedObjectModel != nil) {
         return _managedObjectModel;
     }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"DragonRides" withExtension:@"momd"];
-    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    //NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"DragonRides" withExtension:@"momd"];
+    _managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
+    //[[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    NSAssert(_managedObjectModel!=nil, @"\n ************************** C O R E D A T A    E R R O R ******  \n can not create ManagedObjectModel \n *************************");
     return _managedObjectModel;
 }
 
