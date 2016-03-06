@@ -23,6 +23,7 @@
 		07310E0E1C8AFB93003F9F66 /* MaterialButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 07310E0D1C8AFB93003F9F66 /* MaterialButton.m */; };
 		07310E111C8B8440003F9F66 /* DragonAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 07310E101C8B8440003F9F66 /* DragonAnimation.m */; };
 		0749DE101C8C5E5A000CF0E7 /* DragonRides.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0749DE0D1C8C5E5A000CF0E7 /* DragonRides.xcdatamodeld */; };
+		0749DE161C8C6529000CF0E7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0749DE141C8C6529000CF0E7 /* Localizable.strings */; };
 		0757AB181C878F7E00EFFBBC /* FlightsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0757AB171C878F7E00EFFBBC /* FlightsViewController.m */; };
 		0757AB1B1C878F9800EFFBBC /* FlightsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0757AB1A1C878F9800EFFBBC /* FlightsView.m */; };
 		07B83F231C86043C00FB18F2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B83F221C86043C00FB18F2 /* main.m */; };
@@ -95,6 +96,8 @@
 		07310E101C8B8440003F9F66 /* DragonAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DragonAnimation.m; sourceTree = "<group>"; };
 		0749DE0E1C8C5E5A000CF0E7 /* DragonRides V2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DragonRides V2.xcdatamodel"; sourceTree = "<group>"; };
 		0749DE0F1C8C5E5A000CF0E7 /* DragonRides.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DragonRides.xcdatamodel; sourceTree = "<group>"; };
+		0749DE121C8C6061000CF0E7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		0749DE151C8C6529000CF0E7 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0757AB161C878F7E00EFFBBC /* FlightsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlightsViewController.h; sourceTree = "<group>"; };
 		0757AB171C878F7E00EFFBBC /* FlightsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlightsViewController.m; sourceTree = "<group>"; };
 		0757AB191C878F9800EFFBBC /* FlightsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlightsView.h; sourceTree = "<group>"; };
@@ -215,6 +218,7 @@
 		07B83F201C86043C00FB18F2 /* DragonRides */ = {
 			isa = PBXGroup;
 			children = (
+				0749DE141C8C6529000CF0E7 /* Localizable.strings */,
 				07B83F241C86043C00FB18F2 /* AppDelegate.h */,
 				07B83F251C86043C00FB18F2 /* AppDelegate.m */,
 				07B83F301C86043C00FB18F2 /* Assets.xcassets */,
@@ -416,6 +420,7 @@
 			knownRegions = (
 				en,
 				Base,
+				es,
 			);
 			mainGroup = 07B83F151C86043C00FB18F2;
 			productRefGroup = 07B83F1F1C86043C00FB18F2 /* Products */;
@@ -435,6 +440,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				07B83F341C86043C00FB18F2 /* LaunchScreen.storyboard in Resources */,
+				0749DE161C8C6529000CF0E7 /* Localizable.strings in Resources */,
 				07B83F311C86043C00FB18F2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -524,10 +530,19 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		0749DE141C8C6529000CF0E7 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0749DE151C8C6529000CF0E7 /* es */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		07B83F321C86043C00FB18F2 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				07B83F331C86043C00FB18F2 /* Base */,
+				0749DE121C8C6061000CF0E7 /* en */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
