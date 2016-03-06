@@ -12,5 +12,5 @@
 @property NSDecimalNumber *exchangeRate;
 @property NSNumberFormatter *numberFormatter;
 @property Warrior *currentUser;
-@property (nonatomic) id tableView;
+@property (nonatomic) UITableView *tableView;
 @end

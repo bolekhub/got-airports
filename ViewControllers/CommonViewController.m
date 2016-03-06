@@ -43,7 +43,7 @@
     }
 }
 
--(id)tableView{
+-(UITableView*)tableView{
     // polimorphism . same method for multiple instance, this base class build the message but each class must respond to tableView.
     // to succed.
     UITableView *tableView = [self.view performSelector:@selector(tableView)];

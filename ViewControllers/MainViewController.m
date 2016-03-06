@@ -58,7 +58,7 @@
 }
 
 - (void)loadData{
-    [[(MainView*)self.view progressView] startAnimating];
+    //[[(MainView*)self.view progressView] startAnimating];
 
     [[WebService shared] getDragonFlightsWithPredicate:nil completion:^(NSArray *response, NSError *error) {
 
@@ -70,7 +70,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [CoreDataStack saveMainContext];
                 NSLog(@"finished loading and parsing");
-                [[(MainView*)self.view progressView] stopAnimating];
+                //[[(MainView*)self.view progressView] stopAnimating];
             });
 
         }];

@@ -68,7 +68,7 @@
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_backgroundView]|" options:0 metrics:0 views:dictionaryView]];
 
     
-    NSArray *welcomeLabel= [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(70)-[_welcomeMessage(60)]" options:0 metrics:nil views:dictionaryView];
+    NSArray *welcomeLabel= [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(<=70)-[_welcomeMessage(60)]" options:0 metrics:nil views:dictionaryView];
     
         NSArray *buttons= [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_searchRidesButton(50)]-(40)-[_userSettingButton(50)]-(80)-|" options:0 metrics:nil views:dictionaryView];
 

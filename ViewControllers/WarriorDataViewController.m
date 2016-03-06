@@ -213,6 +213,8 @@ NSString *kExchangeRateValue = @"EXCHANGE_RATE_VALUE";
         return;
     }
 
+    __weak typeof(self) weakSelf = self;
+    __block Warrior *newObject = nil;
     if (!self.warrior) {
         [CoreDataStack saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
             Warrior *newObject = [NSEntityDescription insertNewObjectForEntityForName:@"Warrior" inManagedObjectContext:localContext];
@@ -224,13 +226,16 @@ NSString *kExchangeRateValue = @"EXCHANGE_RATE_VALUE";
             newObject.currency = currencyCell.textField.text;
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self dismissViewControllerAnimated:YES completion:nil];
+                [weakSelf dismissViewControllerAnimated:YES completion:nil];
             });
         }];
         
         [[WebService shared] getExchangeRateFromCurrency:@"EUR" toCurrency:currencyCell.textField.text completion:^(NSNumber *rate, NSError *error) {
             if (error == nil) {
                 [[NSUserDefaults standardUserDefaults] setObject:rate forKey:kExchangeRateValue];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.delegate controller:self didSaveWarrior:newObject];
+                });
             }
         }];
 
