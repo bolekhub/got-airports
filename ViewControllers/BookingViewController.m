@@ -15,6 +15,7 @@
 #import "BookingTableViewCell.h"
 #import "WebService.h"
 #import "BookingFooterView.h"
+#import "WarriorDataViewController.h"
 
 static NSString *kBookingCellArrivalIdentifier      = @"bookingCellArrival";
 static NSString *kBookingCellDepartureIdentifier    = @"bookingCellDeparture";
@@ -33,6 +34,8 @@ static NSString *kBookingCellUserDetailsIdentifier  = @"bookingCellUserIdentifie
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self.footerView.bookButton addTarget:self action:@selector(bookAction:) forControlEvents:UIControlEventTouchUpInside];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -134,12 +137,43 @@ static NSString *kBookingCellUserDetailsIdentifier  = @"bookingCellUserIdentifie
     return cell;
 }
 
+#pragma mark - UIactions
 
 - (void)bookAction:(id)sender{
+    if (self.currentUser) {
+        [CoreDataStack saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+            [self.currentUser addMyTrypsObject:self.selectedSegment];
+        }];
+    }else{
+        [self dialogWithTitle:@"Warning" messageBody:@"To book a ride first you need to register" actionCompletion:^(UIAlertAction * _Nonnull action) {
+            NSLog(@"Perro");
+            [self openSettings:self];
+        }];
+    }
+}
+
+-(void)openSettings:(id)sender {
+    WarriorDataViewController *vc = [WarriorDataViewController new];
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
     
-//    [CoreDataStack saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
-//        [self.currentUser addMyTrypsObject:self.selectedSegment];
-//    }];
+    vc.warrior = nil;
+    [self presentViewController:nc animated:YES completion:nil];
+}
+
+#pragma mark - Private Methods
+-(void)dialogWithTitle:(NSString*)title messageBody:(NSString *)messageBody actionCompletion:(void(^)(UIAlertAction * _Nonnull action))completion{
+    __weak typeof(self) weakSelf = self;
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:title message:messageBody preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        //[weakSelf dismissViewControllerAnimated:YES completion:nil];
+    }];
+    UIAlertAction *go = [UIAlertAction actionWithTitle:@"Register" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        completion(action);
+    }];
+    
+    [controller addAction:cancel];
+    [controller addAction:go];
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 #pragma mark - ComputedProperties
@@ -156,13 +190,12 @@ static NSString *kBookingCellUserDetailsIdentifier  = @"bookingCellUserIdentifie
         if (self.exchangeRate != nil) {
             NSDecimalNumber *ridePrice = [[NSDecimalNumber alloc] initWithDouble:[self.selectedSegment.price doubleValue]];
             NSDecimalNumber *convertedPrice = [ridePrice decimalNumberByMultiplyingBy: self.exchangeRate];
-            _footerView.resumeLabel.text = [NSString stringWithFormat:@"Ride cost %@", [self.numberFormatter stringFromNumber:convertedPrice]];
+            _footerView.resumeLabel.text = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"Ride cost :", nil), [self.numberFormatter stringFromNumber:convertedPrice]];
 
         }else{
-            _footerView.resumeLabel.text = [NSString stringWithFormat:@"Ride cost %@", [self.numberFormatter stringFromNumber:self.selectedSegment.price]];
+            _footerView.resumeLabel.text = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"Ride cost :", nil), [self.numberFormatter stringFromNumber:self.selectedSegment.price]];
         }
         
-        [_footerView.bookButton addTarget:self action:@selector(bookAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     return _footerView;

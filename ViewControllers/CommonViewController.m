@@ -25,11 +25,11 @@
     self.numberFormatter.numberStyle = kCFNumberFormatterCurrencyStyle;
     
     if ([self isKindOfClass:[SegmentViewController class]]) {
-        self.title = @"Segments";
+        self.title = NSLocalizedString(@"Segments", nil);
     }else if ([self isKindOfClass:[FlightsViewController class]]){
-        self.title = @"Available Dragon's rides";
+        self.title = NSLocalizedString(@"Available Dragon's rides", nil);
     }else if ([self isKindOfClass:[BookingViewController class]]){
-        self.title = @"Your ride details";
+        self.title = NSLocalizedString(@"Your ride details", nil);
     }
 
     Warrior *registeredUser = [CoreDataStack getWarriorInContext:[CoreDataStack mainContext]];
@@ -44,6 +44,8 @@
 }
 
 -(id)tableView{
+    // polimorphism . same method for multiple instance, this base class build the message but each class must respond to tableView.
+    // to succed.
     UITableView *tableView = [self.view performSelector:@selector(tableView)];
     return tableView;
 }

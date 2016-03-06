@@ -43,12 +43,16 @@
     [super layoutSubviews];
     self.tableView.dataSource = self.controller;
     self.tableView.delegate = self.controller;
-    self.searchController.searchResultsUpdater = self.controller;
-    self.searchController.delegate = self.controller;
-    
-    self.tableView.tableHeaderView = self.searchController.searchBar;
+    if (!self.controller.userSettings) {
+        self.searchController.searchResultsUpdater = self.controller;
+        self.searchController.delegate = self.controller;
+        self.searchController.searchBar.delegate = self.controller;
+        self.tableView.tableHeaderView = self.searchController.searchBar;
 
+    }
 }
+
+
 - (void)updateConstraints{
     [super updateConstraints];
     

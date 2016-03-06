@@ -20,7 +20,7 @@
 		07310E041C89AD24003F9F66 /* BookingFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 07310E031C89AD24003F9F66 /* BookingFooterView.m */; };
 		07310E071C89DA3B003F9F66 /* TextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07310E061C89DA3B003F9F66 /* TextFieldTableViewCell.m */; };
 		07310E0B1C8AF2CA003F9F66 /* CommonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07310E0A1C8AF2CA003F9F66 /* CommonViewController.m */; };
-		07310E0E1C8AFB93003F9F66 /* MaterialControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 07310E0D1C8AFB93003F9F66 /* MaterialControl.m */; };
+		07310E0E1C8AFB93003F9F66 /* MaterialButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 07310E0D1C8AFB93003F9F66 /* MaterialButton.m */; };
 		07310E111C8B8440003F9F66 /* DragonAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 07310E101C8B8440003F9F66 /* DragonAnimation.m */; };
 		0757AB141C878E0B00EFFBBC /* DragonRides.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 07B83F2D1C86043C00FB18F2 /* DragonRides.xcdatamodeld */; };
 		0757AB151C878E1300EFFBBC /* DragonRides.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = 07B83F2D1C86043C00FB18F2 /* DragonRides.xcdatamodeld */; };
@@ -91,8 +91,8 @@
 		07310E081C89E5CE003F9F66 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		07310E091C8AF2CA003F9F66 /* CommonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonViewController.h; sourceTree = "<group>"; };
 		07310E0A1C8AF2CA003F9F66 /* CommonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonViewController.m; sourceTree = "<group>"; };
-		07310E0C1C8AFB93003F9F66 /* MaterialControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaterialControl.h; sourceTree = "<group>"; };
-		07310E0D1C8AFB93003F9F66 /* MaterialControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaterialControl.m; sourceTree = "<group>"; };
+		07310E0C1C8AFB93003F9F66 /* MaterialButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaterialButton.h; sourceTree = "<group>"; };
+		07310E0D1C8AFB93003F9F66 /* MaterialButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaterialButton.m; sourceTree = "<group>"; };
 		07310E0F1C8B8440003F9F66 /* DragonAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragonAnimation.h; sourceTree = "<group>"; };
 		07310E101C8B8440003F9F66 /* DragonAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DragonAnimation.m; sourceTree = "<group>"; };
 		0757AB161C878F7E00EFFBBC /* FlightsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlightsViewController.h; sourceTree = "<group>"; };
@@ -326,8 +326,8 @@
 			children = (
 				07B83F821C874A7100FB18F2 /* CoreDataStack.h */,
 				07B83F831C874A7100FB18F2 /* CoreDataStack.m */,
-				07310E0C1C8AFB93003F9F66 /* MaterialControl.h */,
-				07310E0D1C8AFB93003F9F66 /* MaterialControl.m */,
+				07310E0C1C8AFB93003F9F66 /* MaterialButton.h */,
+				07310E0D1C8AFB93003F9F66 /* MaterialButton.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -487,7 +487,7 @@
 				07310DF21C889DE8003F9F66 /* BookingViewController.m in Sources */,
 				07310DF91C88A0E3003F9F66 /* BookingTableViewCell.m in Sources */,
 				07B83F231C86043C00FB18F2 /* main.m in Sources */,
-				07310E0E1C8AFB93003F9F66 /* MaterialControl.m in Sources */,
+				07310E0E1C8AFB93003F9F66 /* MaterialButton.m in Sources */,
 				07310E001C89A429003F9F66 /* UIColor+eDreamsColors.m in Sources */,
 				07310DE81C88248B003F9F66 /* FlightDetails.m in Sources */,
 				07310DE51C882433003F9F66 /* Segment.m in Sources */,

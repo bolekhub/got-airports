@@ -7,6 +7,11 @@
 //
 
 #import "MainView.h"
+
+@interface MainView ()
+@property UIImageView *backgroundView ;
+@end
+
 @class MainViewController;
 @implementation MainView
 
@@ -14,29 +19,22 @@
 {
     self = [super init];
     if (self) {
-        self.backgroundColor = [UIColor blueColor];
+        _backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iron"]];
+        _backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
+        _backgroundView.contentMode = UIViewContentModeScaleToFill;
+        
         _welcomeMessage = [UILabel new];
-        [_welcomeMessage setText:@"Hola mundo"];
+        [_welcomeMessage setText:NSLocalizedString(@"Hello warrior", nil)];
+        [_welcomeMessage setNumberOfLines:2];
+        _welcomeMessage.lineBreakMode = NSLineBreakByWordWrapping;
         _welcomeMessage.translatesAutoresizingMaskIntoConstraints = NO;
         [_welcomeMessage setFont:[UIFont systemFontOfSize:22.0]];
         [_welcomeMessage setTextColor:[UIColor whiteColor]];
         [_welcomeMessage setTextAlignment:NSTextAlignmentCenter];
         
-        _userSettingButton = [UIButton new];
-        [_userSettingButton setTitle:@"Settings" forState:UIControlStateNormal];
-        [_userSettingButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
-        [_userSettingButton.titleLabel setFont:[UIFont systemFontOfSize:18.0]];
-        [_userSettingButton.titleLabel setTextColor:[UIColor blackColor]];
-        _userSettingButton.backgroundColor = [UIColor grayColor];
-        _userSettingButton.translatesAutoresizingMaskIntoConstraints = NO;
+        _userSettingButton = [[MaterialButton alloc] initWithTitle:NSLocalizedString(@"Settings", nil)];
 
-        _searchRidesButton = [UIButton new];
-        [_searchRidesButton setTitle:@"Search rides" forState:UIControlStateNormal];
-        [_searchRidesButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
-        [_searchRidesButton.titleLabel setFont:[UIFont systemFontOfSize:18.0]];
-        [_searchRidesButton.titleLabel setTextColor:[UIColor blackColor]];
-        _searchRidesButton.backgroundColor = [UIColor grayColor];
-        _searchRidesButton.translatesAutoresizingMaskIntoConstraints = NO;
+        _searchRidesButton = [[MaterialButton alloc] initWithTitle:NSLocalizedString(@"Search rides", nil)];
         
         // target nil will forward message to responder chain till the specified method signatured is found
 #pragma clang diagnostic push
@@ -49,6 +47,9 @@
         //_progressView.backgroundColor = [UIColor blackColor];
         _progressView.hidesWhenStopped = YES;
         _progressView.translatesAutoresizingMaskIntoConstraints = NO;
+
+        
+        [self addSubview:_backgroundView];
         [self addSubview:_progressView];
         [self addSubview:_userSettingButton];
         [self addSubview:_searchRidesButton];
@@ -61,62 +62,31 @@
 - (void)updateConstraints{
     [super updateConstraints];
     UIView *_superview = self;
-    NSDictionary *dictionaryView = NSDictionaryOfVariableBindings(_userSettingButton, _superview, _searchRidesButton, _welcomeMessage);
     
+    NSDictionary *dictionaryView = NSDictionaryOfVariableBindings(_userSettingButton, _backgroundView, _superview, _searchRidesButton, _welcomeMessage);
     
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_backgroundView]|" options:0 metrics:0 views:dictionaryView]];
+
     
-    NSArray *welcomeMessage_V = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(70)-[_welcomeMessage]" options:0 metrics:nil views:dictionaryView];
+    NSArray *welcomeLabel= [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(70)-[_welcomeMessage(60)]" options:0 metrics:nil views:dictionaryView];
     
-    //WELCOME LABEL
+        NSArray *buttons= [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_searchRidesButton(50)]-(40)-[_userSettingButton(50)]-(80)-|" options:0 metrics:nil views:dictionaryView];
+
     NSArray *welcomeMessage_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_welcomeMessage]-|" options:0 metrics:nil views:dictionaryView];
     
-    // USER SETTING BUTTON
-    NSLayoutConstraint *serSetting_V = [NSLayoutConstraint constraintWithItem:self
-                                                                           attribute:NSLayoutAttributeCenterY
-                                                                           relatedBy:NSLayoutRelationEqual
-                                                                              toItem:_userSettingButton
-                                                                           attribute:NSLayoutAttributeCenterY
-                                                                          multiplier:1.0  constant:0.0];
-    
     NSArray *userSetting_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_userSettingButton]-|" options:0 metrics:nil views:dictionaryView];
+
+    NSArray *searchRide_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_searchRidesButton]-|" options:0 metrics:nil views:dictionaryView];
     
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_backgroundView]|" options:0 metrics:0 views:dictionaryView]];
+
     
-    //SEARCH RIDES BUTTON
-    
-    NSArray *searchRide_V = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_searchRidesButton(50)]-(25)-[_userSettingButton(50)]" options:0 metrics:nil views:dictionaryView];
-    
-   NSArray *searchRide_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_searchRidesButton]-|" options:0 metrics:nil views:dictionaryView];
-    
-    
-    // PROGRESS VIEW
-    NSLayoutConstraint *centerXProgressView = [NSLayoutConstraint constraintWithItem:self
-                                                               attribute:NSLayoutAttributeCenterX
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:_progressView
-                                                               attribute:NSLayoutAttributeCenterX
-                                                              multiplier:1.0  constant:0.0];
-    
-    NSLayoutConstraint *centerYProgressView = [NSLayoutConstraint constraintWithItem:self
-                                                               attribute:NSLayoutAttributeCenterY
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:_progressView
-                                                               attribute:NSLayoutAttributeCenterY
-                                                              multiplier:1.0  constant:0.0];
-    
-    [self addConstraints:@[centerXProgressView, centerYProgressView, serSetting_V]];
     [self addConstraints:userSetting_H];
-    [self addConstraints:searchRide_V];
+    [self addConstraints:welcomeLabel];
+    [self addConstraints:buttons];
     [self addConstraints:searchRide_H];
     
     [self addConstraints:welcomeMessage_H];
-    [self addConstraints:welcomeMessage_V];
-
-    //[self addConstraints:array2];
-
-
-    
-//    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_progressView]" options:0 metrics:nil views:dictionaryView]];
-//    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_progressView]" options:0 metrics:nil views:dictionaryView]];
 }
 
 /*

@@ -13,7 +13,7 @@
 
 #import "UIColor+eDreamsColors.h"
 #import "Constants.h"
-#import "MaterialControl.h"
+#import "MaterialButton.h"
 #import "DragonAnimation.h"
 
 // Include any system framework and library headers here that should be included in all compilation units.

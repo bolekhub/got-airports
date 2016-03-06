@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MaterialControl : UIButton
-
+@interface MaterialButton : UIButton
+-(instancetype)initWithTitle:(NSString*)title;
 @end

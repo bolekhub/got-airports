@@ -32,7 +32,7 @@
     Warrior *p = [CoreDataStack getWarriorInContext:context];
     if (p) {
         MainView *mainView =  (MainView*)self.view;
-        mainView.welcomeMessage.text = [NSString stringWithFormat:@"Welcomeback %@ %@",p.name, p.surname];
+        mainView.welcomeMessage.text = [NSString stringWithFormat:@"%@ %@ %@",NSLocalizedString(@"Welcomeback", nil), p.name, p.surname];
     }
 
     // Do any additional setup after loading the view.

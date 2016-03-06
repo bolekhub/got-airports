@@ -12,5 +12,6 @@
 @interface FlightsView : UIView
 @property UITableView *tableView;
 @property  UISearchController *searchController;
+
 @property (nonatomic, weak) FlightsViewController *controller;
 @end

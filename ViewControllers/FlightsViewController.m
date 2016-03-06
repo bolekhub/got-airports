@@ -14,14 +14,14 @@
 #import "AppDelegate.h"
 #import "Warrior.h"
 #import "SegmentViewController.h"
-
+#import "WarriorDataViewController.h"
 
 static NSString *kFlightCellIdentifier = @"flightCell";
 
 @interface FlightsViewController ()<NSFetchedResultsControllerDelegate>
 @property NSArray *filteredList;
 //@property (nonatomic)  UITableView *tableView;
-@property (nonatomic, weak)  UISearchController *searchController;
+@property (nonatomic)  UISearchController *searchController;
 @property (nonatomic)  NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic) NSFetchRequest *searchFetchRequest;
 
@@ -46,15 +46,18 @@ static NSString *kFlightCellIdentifier = @"flightCell";
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.tableView setAlpha:0];
-    __weak typeof(self) weakSelf = self;
-    [DragonAnimation showInView:self.view];
-    [UIView animateWithDuration:1 delay:2 options:UIViewAnimationOptionTransitionNone animations:^{
-        [weakSelf.tableView setAlpha:1.0];
-    } completion:^(BOOL finished) {
-        [DragonAnimation hideDragon];
-        [weakSelf.tableView setAlpha:1.0];
-    }];
+    UIViewController *comeFrom = [[self.navigationController viewControllers] objectAtIndex:0];
+    if ([comeFrom isKindOfClass:[FlightsViewController class]]) {
+        [self.tableView setAlpha:0];
+        __weak typeof(self) weakSelf = self;
+        [DragonAnimation showInView:self.view];
+        [UIView animateWithDuration:1 delay:2 options:UIViewAnimationOptionTransitionNone animations:^{
+            [weakSelf.tableView setAlpha:1.0];
+        } completion:^(BOOL finished) {
+            [DragonAnimation hideDragon];
+            [weakSelf.tableView setAlpha:1.0];
+        }];
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -98,8 +101,16 @@ static NSString *kFlightCellIdentifier = @"flightCell";
     _filteredList = [[NSMutableArray alloc] initWithCapacity:0];
 }
 
+
+
 -(void)didDismissSearchController:(UISearchController *)searchController{
     _filteredList = nil;
+}
+
+#pragma mark - UISearchBarDelegate
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
+//    [self.searchController resignFirstResponder];
+//    [self.searchController loadView];
 }
 
 #pragma mark UIActions
@@ -154,7 +165,7 @@ static NSString *kFlightCellIdentifier = @"flightCell";
             stringPrice = [self.numberFormatter stringFromNumber:segmentItem.price];
         }
         id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
-        sectionTitle = [NSString stringWithFormat:@"%@ starting at %@", [sectionInfo name], stringPrice];
+        sectionTitle = [NSString stringWithFormat:@"%@ %@ %@", [sectionInfo name],NSLocalizedString(@"starting at", nil), stringPrice];
     }
     
     return sectionTitle;
@@ -182,9 +193,9 @@ static NSString *kFlightCellIdentifier = @"flightCell";
     if (self.exchangeRate != nil) {
         NSDecimalNumber *ridePrice = [[NSDecimalNumber alloc] initWithDouble:[segmentItem.price doubleValue]];
         NSDecimalNumber *convertedPrice = [ridePrice decimalNumberByMultiplyingBy: self.exchangeRate];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"Price : .%@", [self.numberFormatter stringFromNumber:convertedPrice]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ .%@",NSLocalizedString(@"Price :", nil), [self.numberFormatter stringFromNumber:convertedPrice]];
     }else{
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"Price : .%@", [self.numberFormatter stringFromNumber:segmentItem.price]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ .%@", NSLocalizedString(@"Price :", nil), [self.numberFormatter stringFromNumber:segmentItem.price]];
     }
     
     return cell;
@@ -201,9 +212,6 @@ static NSString *kFlightCellIdentifier = @"flightCell";
 
 
 #pragma mark - ComputedProperties
-//- (UITableView *)tableView{
-//    return [(FlightsView*)self.view tableView];
-//}
 
 - (UISearchController *)searchController{
     return [(FlightsView*)self.view searchController];

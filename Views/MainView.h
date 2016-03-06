@@ -10,8 +10,8 @@
 
 @interface MainView : UIView
 @property UIActivityIndicatorView *progressView;
-@property UIButton *userSettingButton;
-@property UIButton *searchRidesButton;
+@property MaterialButton *userSettingButton;
+@property MaterialButton *searchRidesButton;
 @property UILabel *welcomeMessage;
 
 @end

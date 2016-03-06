@@ -7,7 +7,7 @@
 //
 
 #import "BookingFooterView.h"
-#import "MaterialControl.h"
+#import "MaterialButton.h"
 
 @implementation BookingFooterView
 
@@ -17,25 +17,13 @@
     if (self) {
         _resumeLabel = [UILabel new];
         _resumeLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _resumeLabel.adjustsFontSizeToFitWidth = YES;
+        _resumeLabel.minimumScaleFactor = 0.5;
         [_resumeLabel setTextAlignment:NSTextAlignmentCenter];
         [_resumeLabel setFont:[UIFont boldSystemFontOfSize:30.0]];
-       // [_resumeLabel setBackgroundColor:[UIColor blackColor]];
         [_resumeLabel setTextColor:[UIColor blackColor]];
         
-        _bookButton = [MaterialControl new];
-        _bookButton.translatesAutoresizingMaskIntoConstraints = NO;
-        NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.3],NSFontAttributeName,
-                                        [UIColor whiteColor],NSForegroundColorAttributeName,
-                                        nil];
-        
-        [[UINavigationBar appearance] setTitleTextAttributes:textAttributes];
-        
-        NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:@"Book now" attributes:textAttributes];
-        [_bookButton setAttributedTitle:attrString forState:UIControlStateNormal];
-        [_bookButton setTitle:@"Book now" forState:UIControlStateNormal];
-        [_bookButton setBackgroundColor:[UIColor eBlueColor]];
-        _bookButton.layer.cornerRadius = 8;
+        _bookButton = [[MaterialButton alloc] initWithTitle:@"Book now"];
         
         [self addSubview:_resumeLabel];
         [self addSubview:_bookButton];

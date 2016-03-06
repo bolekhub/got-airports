@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "CommonViewController.h"
 
-@interface FlightsViewController : CommonViewController<UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate>
+@interface FlightsViewController : CommonViewController<UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate>
 @property (nonatomic) BOOL userSettings;
 @end

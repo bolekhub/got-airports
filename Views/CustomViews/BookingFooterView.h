@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-@class MaterialControl;
+@class MaterialButton;
 @interface BookingFooterView : UIView
 @property UILabel *resumeLabel;
-@property MaterialControl *bookButton;
+@property MaterialButton *bookButton;
 @end
