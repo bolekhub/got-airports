@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15D21" minimumToolsVersion="Automatic">
+    <entity name="FlightDetails" representedClassName="FlightDetails" syncable="YES">
+        <attribute name="airline" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="airlineImageUrlString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="arrivalDate" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="arrivalTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="departureDate" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="departureTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="destination" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="origin" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="inboundSegment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Segment" inverseName="inbound" inverseEntity="Segment" syncable="YES"/>
+        <relationship name="outboundSegment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Segment" inverseName="outbound" inverseEntity="Segment" syncable="YES"/>
+    </entity>
+    <entity name="Segment" representedClassName="Segment" syncable="YES">
+        <attribute name="currency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="price" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="inbound" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FlightDetails" inverseName="inboundSegment" inverseEntity="FlightDetails" syncable="YES"/>
+        <relationship name="outbound" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FlightDetails" inverseName="outboundSegment" inverseEntity="FlightDetails" syncable="YES"/>
+        <relationship name="warriorTryps" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Warrior" inverseName="myTryps" inverseEntity="Warrior" syncable="YES"/>
+    </entity>
+    <entity name="Warrior" representedClassName="Warrior" syncable="YES">
+        <attribute name="currency" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dob" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="surname" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="myTryps" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Segment" inverseName="warriorTryps" inverseEntity="Segment" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="FlightDetails" positionX="-54" positionY="18" width="128" height="195"/>
+        <element name="Segment" positionX="-63" positionY="9" width="128" height="120"/>
+        <element name="Warrior" positionX="-63" positionY="-18" width="128" height="120"/>
+    </elements>
+</model>
