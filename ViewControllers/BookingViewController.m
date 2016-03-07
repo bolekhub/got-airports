@@ -25,7 +25,7 @@ static NSString *kBookingCellUserDetailsIdentifier  = @"bookingCellUserIdentifie
 
 
 
-@interface BookingViewController ()
+@interface BookingViewController ()<WarriorDataViewControllerDelegate>
 @property (nonatomic) BookingFooterView *footerView;
 @end
 
@@ -34,8 +34,6 @@ static NSString *kBookingCellUserDetailsIdentifier  = @"bookingCellUserIdentifie
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self.footerView.bookButton addTarget:self action:@selector(bookAction:) forControlEvents:UIControlEventTouchUpInside];
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -163,6 +161,7 @@ static NSString *kBookingCellUserDetailsIdentifier  = @"bookingCellUserIdentifie
 
 -(void)openSettings:(id)sender {
     WarriorDataViewController *vc = [WarriorDataViewController new];
+    vc.delegate = self;
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
     
     vc.warrior = nil;
@@ -183,6 +182,14 @@ static NSString *kBookingCellUserDetailsIdentifier  = @"bookingCellUserIdentifie
     [self presentViewController:controller animated:YES completion:nil];
 }
 
+#pragma mark - WarriorDataViewControllerDelegate
+- (void)controller:(WarriorDataViewController *)controller didSaveWarrior:(Warrior *)warrior{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.currentUser = warrior;
+        [self.tableView reloadData];
+    });
+}
+
 #pragma mark - ComputedProperties
 
 /**
@@ -193,8 +200,11 @@ static NSString *kBookingCellUserDetailsIdentifier  = @"bookingCellUserIdentifie
 - (BookingFooterView *)footerView{
     if (_footerView == nil) {
             _footerView = [BookingFooterView new];
-        
+        [_footerView.bookButton addTarget:self action:@selector(bookAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
         if (self.exchangeRate != nil) {
+
             NSDecimalNumber *ridePrice = [[NSDecimalNumber alloc] initWithDouble:[self.selectedSegment.price doubleValue]];
             NSDecimalNumber *convertedPrice = [ridePrice decimalNumberByMultiplyingBy: self.exchangeRate];
             _footerView.resumeLabel.text = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"Ride cost :", nil), [self.numberFormatter stringFromNumber:convertedPrice]];
@@ -203,7 +213,7 @@ static NSString *kBookingCellUserDetailsIdentifier  = @"bookingCellUserIdentifie
             _footerView.resumeLabel.text = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"Ride cost :", nil), [self.numberFormatter stringFromNumber:self.selectedSegment.price]];
         }
         
-    }
+    
     
     return _footerView;
 }

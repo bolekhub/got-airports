@@ -215,9 +215,11 @@ NSString *kExchangeRateValue = @"EXCHANGE_RATE_VALUE";
 
     __weak typeof(self) weakSelf = self;
     __block Warrior *newObject = nil;
+    __block Warrior *newObjectCopy = nil;
+
     if (!self.warrior) {
         [CoreDataStack saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
-            Warrior *newObject = [NSEntityDescription insertNewObjectForEntityForName:@"Warrior" inManagedObjectContext:localContext];
+            newObject = [NSEntityDescription insertNewObjectForEntityForName:@"Warrior" inManagedObjectContext:localContext];
             newObject.name = nameCell.textField.text;
             newObject.surname = surNameCell.textField.text;
 
@@ -225,6 +227,7 @@ NSString *kExchangeRateValue = @"EXCHANGE_RATE_VALUE";
             newObject.dob = date;
             newObject.currency = currencyCell.textField.text;
             
+            //newObjectCopy = [newObject copy];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf dismissViewControllerAnimated:YES completion:nil];
             });
@@ -260,6 +263,7 @@ NSString *kExchangeRateValue = @"EXCHANGE_RATE_VALUE";
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self dismissViewControllerAnimated:YES completion:nil];
+                [weakSelf.delegate controller:self didSaveWarrior:newObject];
             });
             
         }];
