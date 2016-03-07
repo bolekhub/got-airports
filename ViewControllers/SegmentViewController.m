@@ -76,6 +76,8 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSegmentCellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:kSegmentCellIdentifier];
+        cell.detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        [cell.detailTextLabel setNumberOfLines:2];
     }
     Segment *segmentItem = segmentItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
 
@@ -87,7 +89,7 @@
     if (self.exchangeRate != nil) {
         NSDecimalNumber *ridePrice = [[NSDecimalNumber alloc] initWithDouble:[segmentItem.price doubleValue]];
         NSDecimalNumber *convertedPrice = [ridePrice decimalNumberByMultiplyingBy: self.exchangeRate];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ .%@",NSLocalizedString(@"Price :", nil), [self.numberFormatter stringFromNumber:convertedPrice]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ .%@  |  %@, %@ - %@, %@",NSLocalizedString(@"Price:", nil), [self.numberFormatter stringFromNumber:convertedPrice], segmentItem.outbound.departureDate,segmentItem.outbound.departureTime, segmentItem.outbound.arrivalDate,segmentItem.outbound.arrivalTime];
     }else{
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ .%@",NSLocalizedString(@"Price :", nil), [self.numberFormatter stringFromNumber:segmentItem.price]];
     }

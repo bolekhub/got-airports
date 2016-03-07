@@ -18,6 +18,15 @@ typedef NS_ENUM(NSUInteger, BOOKINGCELLUSE) {
 @property Segment *segment;
 @property UILabel *flightDurationLabel;
 
+/**
+ *  Build a cell to show in the BookingViewController view
+ *
+ *  @param segment         Segment entity used to fill cell data
+ *  @param reuseIdentifier identifier used to retrieve cell on TableView reciclyng proccess
+ *  @param cellPurpose     used to layout content according to arrival or destination.
+ *
+ *  @return BookingTableViewCell
+ */
 - (instancetype)initWithSegment:(Segment*)segment reuseIdentifier:(NSString*)reuseIdentifier cellPurpose:(BOOKINGCELLUSE)cellPurpose;
 
 @end
