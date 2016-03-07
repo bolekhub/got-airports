@@ -24,6 +24,9 @@
     self.numberFormatter = [NSNumberFormatter new];
     self.numberFormatter.numberStyle = kCFNumberFormatterCurrencyStyle;
     
+    self.dateFormatter = [NSDateFormatter new];
+    [self.dateFormatter setDateFormat:@"dd/mm/YYYY"];
+    
     if ([self isKindOfClass:[SegmentViewController class]]) {
         self.title = NSLocalizedString(@"Segments", nil);
     }else if ([self isKindOfClass:[FlightsViewController class]]){
@@ -41,6 +44,31 @@
     }else{
         self.numberFormatter.currencyCode = @"EUR";
     }
+}
+
+-(NSString*)computedTravelTimeFrom:(NSString*)departureStrDate arrival:(NSString*)arrivalStrDate{
+    NSDate *date1 = [self.dateFormatter dateFromString:departureStrDate];
+    NSDate *date2 = [self.dateFormatter dateFromString:arrivalStrDate];
+    NSTimeInterval ti = [date2 timeIntervalSinceDate:date1];
+    NSTimeInterval minutes = ti/60;
+    NSTimeInterval hours = minutes/60;
+    NSTimeInterval days = hours/24;
+    NSTimeInterval weeks = days/7;
+    NSTimeInterval months = weeks/4;
+    NSTimeInterval years = months/12;
+    
+
+    
+    NSString *travelTime = nil;
+    if (years>0) {
+        travelTime = [NSString stringWithFormat:@"%@ %.2f %@", NSLocalizedString(@"Estimated flight duration ", nil), years,  NSLocalizedString(@"years", nil)];
+    }else if (months > 0){
+        travelTime = [NSString stringWithFormat:@"%@ %.2f %@", NSLocalizedString(@"Estimated flight duration ", nil), months, NSLocalizedString(@"months", nil)];
+    }else if (weeks > 0){
+        travelTime = [NSString stringWithFormat:@"%@ %.2f %@", NSLocalizedString(@"Estimated flight duration ", nil), weeks,  NSLocalizedString(@"weeks", nil)];
+    }
+    
+    return travelTime;
 }
 
 -(UITableView*)tableView{

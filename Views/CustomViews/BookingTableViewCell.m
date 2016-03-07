@@ -13,7 +13,6 @@
 
 
 @interface BookingTableViewCell ()
-@property UILabel *flightDurationLabel;
 @property UILabel *flightDirectionLabel;
 
 @property UILabel *originCityLabel;
@@ -137,8 +136,8 @@
 
 - (void)layoutSubviews{
     if (self.cellPurpose == BOOKINGCELLUSE_ARRIVAL) {
-        self.flightDurationLabel.text = [NSString stringWithFormat:@"Flight durarion %@",self.segment.inbound.departureTime] ;
-        self.flightDirectionLabel.text = @"Vuelta";
+        //self.flightDurationLabel.text = [NSString stringWithFormat:@"Flight durarion %@",self.segment.inbound.departureTime] ;
+        self.flightDirectionLabel.text = NSLocalizedString(@"Arrival", nil);
         self.departureTimeLabel.text = self.segment.inbound.departureTime;
         self.departureDateLabel.text = self.segment.inbound.departureDate;
         self.arrivalDateLabel.text = self.segment.inbound.arrivalDate;
@@ -152,8 +151,8 @@
 
         
     }else if(self.cellPurpose == BOOKINGCELLUSE_DEPARTURE){
-        self.flightDurationLabel.text = [NSString stringWithFormat:@"Flight durarion %@",self.segment.outbound.departureTime] ;
-        self.flightDirectionLabel.text = @"Ida";
+        //self.flightDurationLabel.text = [NSString stringWithFormat:@"Flight durarion %@",self.segment.outbound.departureTime] ;
+        self.flightDirectionLabel.text = NSLocalizedString(@"Departure", nil);
         self.departureTimeLabel.text = self.segment.outbound.departureTime;
         self.departureDateLabel.text = self.segment.outbound.departureDate;
         self.arrivalDateLabel.text = self.segment.outbound.arrivalDate;

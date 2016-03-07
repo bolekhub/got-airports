@@ -16,6 +16,7 @@ typedef NS_ENUM(NSUInteger, BOOKINGCELLUSE) {
 
 @interface BookingTableViewCell : UITableViewCell
 @property Segment *segment;
+@property UILabel *flightDurationLabel;
 
 - (instancetype)initWithSegment:(Segment*)segment reuseIdentifier:(NSString*)reuseIdentifier cellPurpose:(BOOKINGCELLUSE)cellPurpose;
 

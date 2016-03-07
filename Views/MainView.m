@@ -47,6 +47,22 @@
         //_progressView.backgroundColor = [UIColor blackColor];
         _progressView.hidesWhenStopped = YES;
         _progressView.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        // Add paralax effect to GOT background image. Moving device should apply paralax to the view
+        UIInterpolatingMotionEffect *xAxis;
+        xAxis = [[UIInterpolatingMotionEffect alloc]initWithKeyPath:@"center.x" type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+        xAxis.minimumRelativeValue = @-40;
+        xAxis.maximumRelativeValue = @40;
+        
+        UIInterpolatingMotionEffect *yAxis;
+        yAxis = [[UIInterpolatingMotionEffect alloc]initWithKeyPath:@"center.y" type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+        yAxis.minimumRelativeValue = @-40;
+        yAxis.maximumRelativeValue = @40;
+        
+        UIMotionEffectGroup *group = [[UIMotionEffectGroup alloc]init];
+        group.motionEffects = @[xAxis, yAxis];
+        
+        [self.backgroundView addMotionEffect:group];
 
         
         [self addSubview:_backgroundView];

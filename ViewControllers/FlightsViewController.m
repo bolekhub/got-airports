@@ -72,7 +72,6 @@ static NSString *kFlightCellIdentifier = @"flightCell";
 #pragma mark - Private Methods
 - (void)searchForText:(NSString *)searchText
 {
-
         NSString *predicateFormat = @"%K BEGINSWITH[cd] %@";
         NSString *searchAttribute = @"outbound.destination";
     
@@ -129,6 +128,7 @@ static NSString *kFlightCellIdentifier = @"flightCell";
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     return 90.0f;
 }
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if ([self.searchController isActive]) {
         return [self.filteredList count];
@@ -186,6 +186,9 @@ static NSString *kFlightCellIdentifier = @"flightCell";
         //self.sections[indexPath.section][indexPath.row];
     }
     
+        
+    //NSDate *arrivalDate = [NSDate dateWithTimeIntervalSinceReferenceDate:ti];
+    
     
     cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@ / %@ - %@",
                            segmentItem.inbound.destination, segmentItem.inbound.origin,
@@ -218,8 +221,7 @@ static NSString *kFlightCellIdentifier = @"flightCell";
 }
 
 
-#pragma mark === Fetched Results Controller ===
-#pragma mark -
+#pragma mark - Fetched Results Controller
 
 - (NSFetchedResultsController *)fetchedResultsController
 {
@@ -236,7 +238,8 @@ static NSString *kFlightCellIdentifier = @"flightCell";
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         NSPredicate *predicate = nil;
         if (self.userSettings) {
-           predicate  = [NSPredicate predicateWithFormat:@"warriorTryps.name == %@",currentUser.name];
+            NSString *user = (currentUser != nil) ? currentUser.name : @"-";
+           predicate  = [NSPredicate predicateWithFormat:@"warriorTryps.name == %@",user];
         }else{
         }
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"Segment" inManagedObjectContext:moc];
@@ -287,8 +290,7 @@ static NSString *kFlightCellIdentifier = @"flightCell";
     return _searchFetchRequest;
 }
 
-#pragma mark == FetchedResultController Delegate ==
-#pragma mark -
+#pragma mark - FetchedResultController Delegate
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     [self.tableView reloadData];

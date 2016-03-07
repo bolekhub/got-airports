@@ -23,7 +23,7 @@
         [_resumeLabel setFont:[UIFont boldSystemFontOfSize:30.0]];
         [_resumeLabel setTextColor:[UIColor blackColor]];
         
-        _bookButton = [[MaterialButton alloc] initWithTitle:@"Book now"];
+        _bookButton = [[MaterialButton alloc] initWithTitle:NSLocalizedString(@"Book now", nil)];
         
         [self addSubview:_resumeLabel];
         [self addSubview:_bookButton];

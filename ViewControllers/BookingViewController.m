@@ -105,10 +105,10 @@ static NSString *kBookingCellUserDetailsIdentifier  = @"bookingCellUserIdentifie
         [cell setBackgroundColor:[UIColor clearColor]];
         if (self.currentUser) {
             cell.textLabel.text = [NSString stringWithFormat:@"Warrior :%@ %@", self.currentUser.name, self.currentUser.surname];
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"Your prefed currency is : %@", self.currentUser.currency];
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ : %@",NSLocalizedString(@"Your prefed currency is", nil), self.currentUser.currency];
         }else{
-            cell.textLabel.text = @"There's no warrior details";
-            cell.detailTextLabel.text = @"To book a ride we need to know who are you.";
+            cell.textLabel.text = NSLocalizedString(@"There's no warrior details", nil);
+            cell.detailTextLabel.text = NSLocalizedString(@"To book a ride we need to know who are you.", nil);
         }
     }
     else if (indexPath.row == 1)
@@ -116,6 +116,8 @@ static NSString *kBookingCellUserDetailsIdentifier  = @"bookingCellUserIdentifie
         cell = [self.tableView dequeueReusableCellWithIdentifier:kBookingCellDepartureIdentifier];
         if (cell == nil) {
             cell = [[BookingTableViewCell alloc] initWithSegment:self.selectedSegment reuseIdentifier:kBookingCellDepartureIdentifier cellPurpose:BOOKINGCELLUSE_DEPARTURE];
+            NSString *elapsedTime = [self computedTravelTimeFrom:self.selectedSegment.outbound.departureDate arrival:self.selectedSegment.outbound.arrivalDate];
+            [[(BookingTableViewCell*)cell flightDurationLabel] setText:elapsedTime];
         }
     }
     else if (indexPath.row == 2)
@@ -130,6 +132,8 @@ static NSString *kBookingCellUserDetailsIdentifier  = @"bookingCellUserIdentifie
         cell = [self.tableView dequeueReusableCellWithIdentifier:kBookingCellArrivalIdentifier];
         if (cell == nil) {
             cell = [[BookingTableViewCell alloc] initWithSegment:self.selectedSegment reuseIdentifier:kBookingCellArrivalIdentifier cellPurpose:BOOKINGCELLUSE_ARRIVAL];
+            NSString *elapsedTime = [self computedTravelTimeFrom:self.selectedSegment.inbound.departureDate arrival:self.selectedSegment.inbound.arrivalDate];
+            [[(BookingTableViewCell*)cell flightDurationLabel] setText:elapsedTime];
         }
     }
     
@@ -144,10 +148,15 @@ static NSString *kBookingCellUserDetailsIdentifier  = @"bookingCellUserIdentifie
         [CoreDataStack saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
             [self.currentUser addMyTrypsObject:self.selectedSegment];
         }];
+        
+        [self dialogWithTitle:NSLocalizedString(@"Great!", nil) messageBody:NSLocalizedString(@"Trip Booked", nil) positiveActionTitle:@"OK" actionCompletion:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        
     }else{
-        [self dialogWithTitle:@"Warning" messageBody:@"To book a ride first you need to register" actionCompletion:^(UIAlertAction * _Nonnull action) {
-            NSLog(@"Perro");
+        [self dialogWithTitle:NSLocalizedString(@"Warning", nil) messageBody:NSLocalizedString(@"To book a ride first you need to register", nil) positiveActionTitle:NSLocalizedString(@"Register", nil) actionCompletion:^(UIAlertAction * _Nonnull action) {
             [self openSettings:self];
+
         }];
     }
 }
@@ -161,13 +170,13 @@ static NSString *kBookingCellUserDetailsIdentifier  = @"bookingCellUserIdentifie
 }
 
 #pragma mark - Private Methods
--(void)dialogWithTitle:(NSString*)title messageBody:(NSString *)messageBody actionCompletion:(void(^)(UIAlertAction * _Nonnull action))completion{
+-(void)dialogWithTitle:(NSString*)title messageBody:(NSString *)messageBody positiveActionTitle:(NSString*)buttonTitle actionCompletion:(void(^)(UIAlertAction * _Nonnull action))completion{
     //__weak typeof(self) weakSelf = self;
     UIAlertController *controller = [UIAlertController alertControllerWithTitle:title message:messageBody preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         //[weakSelf dismissViewControllerAnimated:YES completion:nil];
     }];
-    UIAlertAction *go = [UIAlertAction actionWithTitle:@"Register" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *go = [UIAlertAction actionWithTitle:buttonTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         completion(action);
     }];
     
