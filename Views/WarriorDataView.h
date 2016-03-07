@@ -10,15 +10,11 @@
 @class WarriorDataViewController;
 
 @interface WarriorDataView : UIView
-@property NSArray *currencies ;
-@property NSString *selectedCurrency;
-//@property UITextField *nameTextField;
-//@property UITextField *surNameTextField;
-@property UIDatePicker *dobPicker;
-@property UIPickerView *currencyPicker;
-//@property UIScrollView *scrollView;
-
-@property UITableView *tableView;
+@property NSArray       *currencies ;
+@property NSString      *selectedCurrency;
+@property UIDatePicker  *dobPicker;
+@property UIPickerView  *currencyPicker;
+@property UITableView   *tableView;
 @property (nonatomic) WarriorDataViewController *controller;
 
 

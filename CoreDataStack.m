@@ -26,38 +26,6 @@
 }
 
 +(void)createSegmentWithData:(NSDictionary*)data inContext:(NSManagedObjectContext*)context{
-    /*
-     {
-     "inbound": {
-     "airline": "Ghiscar",
-     "airlineImage": "http://dragonimages.net/images/gallery/dragon-images-by-unknown-234.jpg",
-     "arrivalDate": "4/6/2986",
-     "arrivalTime": "11:54",
-     "departureDate": "1/31/2983",
-     "departureTime": "21:49",
-     "destination": "Asshai",
-     "origin": "Chroyane"
-     },
-     "outbound": {
-     "airline": "Viserion",
-     "airlineImage": "http://dragonimages.net/images/gallery/dragon-images-by-unknown-250.jpg",
-     "arrivalDate": "11/19/3029",
-     "arrivalTime": "9:26",
-     "departureDate": "7/2/3020",
-     "departureTime": "13:11",
-     "destination": "Chroyane",
-     "origin": "Asshai"
-     },
-     "price": 1751.34,
-     "currency": "EUR"
-     },
-     */
-    
-//    NSManagedObjectContext *localContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-//    [localContext setParentContext:[self mainContext]];
-    
-    //NSManagedObjectContext *creationContext = (context == nil) ? [self mainContext] : context;
-    
     Segment *segment = [NSEntityDescription insertNewObjectForEntityForName:@"Segment" inManagedObjectContext:context];
     segment.currency = data[@"currency"];
     segment.price =  [NSDecimalNumber decimalNumberWithDecimal:[data[@"price"] decimalValue]];
@@ -72,14 +40,9 @@
     segment.outbound = outbound;
     outbound.outboundSegment = segment;
     
-    
 }
 
-/**
- *  Asyncronous save, you should save the parent context in order to perist data to PSC
- *
- *  @param block this block is used to create objects using the given localcontext, wich is a private queue
- */
+
 + (void)saveWithBlock:(void(^)(NSManagedObjectContext *localContext))block completion:(void(^)(NSError *error))completion{
     NSManagedObjectContext *localContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     [localContext setParentContext:[self mainContext]];
@@ -98,6 +61,8 @@
         }
     }];
 }
+
+
 
 + (void)saveWithBlockAndWait:(void(^)(NSManagedObjectContext *localContext))block{
     NSManagedObjectContext *localContext = [CoreDataStack mainContext];

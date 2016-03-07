@@ -11,6 +11,6 @@
 @interface TextFieldTableViewCell : UITableViewCell
 @property  UITextField *textField;
 
-- (instancetype)initWithText:(NSString*)text textFieldTag:(TAGIDENTIFIER)tag reuseIdentifier:(NSString*)reuseIdentifier ;
+- (instancetype)initWithText:(NSString*)text textFieldTag:(TAGIDENTIFIER)tag reuseIdentifier:(NSString*)reuseIdentifier;
 
 @end

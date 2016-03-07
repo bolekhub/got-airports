@@ -18,7 +18,6 @@
     // Initialization code
 }
 
-
 - (instancetype)initWithText:(NSString*)text textFieldTag:(TAGIDENTIFIER)tag reuseIdentifier:(NSString*)reuseIdentifier {
     self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
     if (self) {

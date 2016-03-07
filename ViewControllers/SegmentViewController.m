@@ -59,23 +59,17 @@
         return [sectionInfo numberOfObjects];
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
+    return 90.0f;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
         return [[self.fetchedResultsController sections] count];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    //Segment *segmentItem = nil;
-    //NSString *sectionTitle = nil;
-
-        //segmentItem = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section]];
-        //NSString *stringPrice = [self.numberFormatter stringFromNumber:segmentItem.price];
-        id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
-        //sectionTitle = [NSString stringWithFormat:@"%@ starting at %@", [sectionInfo name], stringPrice];
-    
-    
+    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
     return [sectionInfo name];
-    //[NSString stringWithFormat:@"%@ starting at %@",sectionTitle, stringPrice];
-    //[NSString stringWithFormat:@"%@ from %@", segmentItem.outbound.destination, stringPrice];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
