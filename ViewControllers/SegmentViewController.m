@@ -91,7 +91,7 @@
         NSDecimalNumber *convertedPrice = [ridePrice decimalNumberByMultiplyingBy: self.exchangeRate];
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ .%@  |  %@, %@ - %@, %@",NSLocalizedString(@"Price:", nil), [self.numberFormatter stringFromNumber:convertedPrice], segmentItem.outbound.departureDate,segmentItem.outbound.departureTime, segmentItem.outbound.arrivalDate,segmentItem.outbound.arrivalTime];
     }else{
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ .%@",NSLocalizedString(@"Price :", nil), [self.numberFormatter stringFromNumber:segmentItem.price]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ .%@  |  %@, %@ - %@, %@",NSLocalizedString(@"Price :", nil), [self.numberFormatter stringFromNumber:segmentItem.price], segmentItem.outbound.departureDate,segmentItem.outbound.departureTime, segmentItem.outbound.arrivalDate,segmentItem.outbound.arrivalTime];
     }
     
     //cell.detailTextLabel.text = [NSString stringWithFormat:@"Price : .%.2f", [segmentItem.price doubleValue]];

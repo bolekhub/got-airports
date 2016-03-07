@@ -171,10 +171,8 @@ static NSString *kBookingCellUserDetailsIdentifier  = @"bookingCellUserIdentifie
 
 #pragma mark - Private Methods
 -(void)dialogWithTitle:(NSString*)title messageBody:(NSString *)messageBody positiveActionTitle:(NSString*)buttonTitle actionCompletion:(void(^)(UIAlertAction * _Nonnull action))completion{
-    //__weak typeof(self) weakSelf = self;
     UIAlertController *controller = [UIAlertController alertControllerWithTitle:title message:messageBody preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        //[weakSelf dismissViewControllerAnimated:YES completion:nil];
     }];
     UIAlertAction *go = [UIAlertAction actionWithTitle:buttonTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         completion(action);
