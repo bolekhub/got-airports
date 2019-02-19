@@ -10,3 +10,4 @@ Issues/ Improvements
 * Web service class could be static methods, 🧐 yes / no, hmmm
 * Searchbar dissapear sometimes yes. 
 * Dragon is so cute 🥵
+* Unit test
