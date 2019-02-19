@@ -191,6 +191,7 @@ NSString *kExchangeRateValue = @"EXCHANGE_RATE_VALUE";
 }
 
 -(void)saveData:(id)sender{
+    [DragonAnimation showInView:self.view];
     TextFieldTableViewCell *nameCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     
     TextFieldTableViewCell *surNameCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
@@ -215,7 +216,6 @@ NSString *kExchangeRateValue = @"EXCHANGE_RATE_VALUE";
 
     __weak typeof(self) weakSelf = self;
     __block Warrior *newObject = nil;
-    __block Warrior *newObjectCopy = nil;
 
     if (!self.warrior) {
         [CoreDataStack saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
@@ -237,6 +237,7 @@ NSString *kExchangeRateValue = @"EXCHANGE_RATE_VALUE";
             if (error == nil) {
                 [[NSUserDefaults standardUserDefaults] setObject:rate forKey:kExchangeRateValue];
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    [DragonAnimation hideDragon];
                     [weakSelf.delegate controller:self didSaveWarrior:newObject];
                 });
             }
@@ -262,6 +263,7 @@ NSString *kExchangeRateValue = @"EXCHANGE_RATE_VALUE";
             self.warrior.currency = currencyCell.textField.text;
             
             dispatch_async(dispatch_get_main_queue(), ^{
+                [DragonAnimation hideDragon];
                 [self dismissViewControllerAnimated:YES completion:nil];
                 [weakSelf.delegate controller:self didSaveWarrior:newObject];
             });

@@ -208,7 +208,6 @@ static NSString *kFlightCellIdentifier = @"flightCell";
     Segment *segmentItem = segmentItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
     SegmentViewController *vc = [SegmentViewController new];
     vc.selectedSegment = segmentItem;
-    vc.exchangeRate = self.exchangeRate;
     vc.numberFormatter = self.numberFormatter;
     [self.navigationController pushViewController:vc animated:YES];
 }

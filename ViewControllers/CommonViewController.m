@@ -34,7 +34,10 @@
     }else if ([self isKindOfClass:[BookingViewController class]]){
         self.title = NSLocalizedString(@"Your ride details", nil);
     }
+}
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     Warrior *registeredUser = [CoreDataStack getWarriorInContext:[CoreDataStack mainContext]];
     if (registeredUser) {
         self.currentUser = registeredUser;
@@ -44,6 +47,7 @@
     }else{
         self.numberFormatter.currencyCode = @"EUR";
     }
+
 }
 
 -(NSString*)computedTravelTimeFrom:(NSString*)departureStrDate arrival:(NSString*)arrivalStrDate{
@@ -66,10 +70,13 @@
         travelTime = [NSString stringWithFormat:@"%@ %.2f %@", NSLocalizedString(@"Estimated flight duration ", nil), months, NSLocalizedString(@"months", nil)];
     }else if (weeks > 0){
         travelTime = [NSString stringWithFormat:@"%@ %.2f %@", NSLocalizedString(@"Estimated flight duration ", nil), weeks,  NSLocalizedString(@"weeks", nil)];
+    }else if (days>0){
+        travelTime = [NSString stringWithFormat:@"%@ %.2f %@", NSLocalizedString(@"Estimated flight duration ", nil), days,  NSLocalizedString(@"days", nil)];
     }
     
     return travelTime;
 }
+
 
 -(UITableView*)tableView{
     // polimorphism . same method for multiple instance, this base class build the message but each class must respond to tableView.

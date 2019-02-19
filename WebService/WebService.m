@@ -40,6 +40,7 @@ static const WebService *_instance  = nil;
 }
 
 
+
 - (void)getDragonFlightsWithPredicate:(NSPredicate *)predicate completion:(FlightsServiceCompletion)completion{
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
      NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL: [NSURL URLWithString:[WebService flightStringUrl]] ];

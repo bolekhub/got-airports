@@ -185,7 +185,12 @@ static NSString *kBookingCellUserDetailsIdentifier  = @"bookingCellUserIdentifie
 #pragma mark - WarriorDataViewControllerDelegate
 - (void)controller:(WarriorDataViewController *)controller didSaveWarrior:(Warrior *)warrior{
     dispatch_async(dispatch_get_main_queue(), ^{
+        //set current warrior
         self.currentUser = warrior;
+        NSNumber *xchangeAsNumber = [[NSUserDefaults standardUserDefaults] valueForKey:kExchangeRateValue];
+        //set exchange rate
+        self.exchangeRate = [[NSDecimalNumber alloc] initWithDouble:[xchangeAsNumber doubleValue]];
+        //reload UI
         [self.tableView reloadData];
     });
 }
